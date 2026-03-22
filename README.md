@@ -1,4 +1,4 @@
-FOS ("Fission Of Soul") general-purpose C library.
+FOS ("Fission Of Soul") general-purpose C library. Requires at least C11-compliant compiler (GCC/Clang/Pelles C). MSVS doesn't support _Thread_local, but a workaround is included.
 
 The modules use leaf-based design, so they are not dependent on each other.
 
