@@ -6,3 +6,5 @@ The modules use leaf-based design, so they are not dependent on each other.
 Currently implemented: 
 - FOS_Rng (a pseudo-random numbers generator)
 - FOS_HashMap (a key/value storage)
+
+Documentation and examples will be added later.
