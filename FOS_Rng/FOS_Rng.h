@@ -9,6 +9,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+#if defined(_MSC_VER)
+    #define FOS_THREAD_LOCAL __declspec(thread)
+#else
+    #define FOS_THREAD_LOCAL _Thread_local
+#endif
+
 typedef struct {
     uint64_t state;
     uint64_t inc;

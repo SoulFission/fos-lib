@@ -21,7 +21,7 @@ FOS_Rng FOS_rng_seed(uint64_t seed, uint64_t stream)
 
 FOS_Rng FOS_rng_seed_auto(void)
 {
-    static uint64_t counter = 0;
+    FOS_THREAD_LOCAL static uint64_t counter = 0;
     uint64_t var = 0;
     uint64_t *ptr = NULL;
 
@@ -80,8 +80,8 @@ uint32_t FOS_rng_range_gen(FOS_Rng *rng, uint32_t min, uint32_t max)
 
 uint32_t FOS_rng_range(uint32_t min, uint32_t max)
 {
-    static FOS_Rng default_rng;
-    static bool init = false;
+    FOS_THREAD_LOCAL static FOS_Rng default_rng;
+    FOS_THREAD_LOCAL static bool init = false;
 
     if (!init) 
     { 
@@ -150,7 +150,7 @@ bool FOS_rng_shuffle_generic(void *data, size_t n, size_t elem_size, FOS_Rng *rn
 
 void *FOS_rng_choose(void *data, size_t n, size_t elem_size, FOS_Rng *rng)
 {
-    if (!data || n == 0 || elem_size == 0 || !rng)
+    if (data == NULL || n == 0 || elem_size == 0 || rng == NULL)
         return NULL;
 
     size_t i = FOS_rng_range_gen(rng, 0, (uint32_t)(n - 1));
