@@ -73,6 +73,9 @@ bool FOS_bignum_copy(FOS_Bignum *dst, const FOS_Bignum *src)
     if (dst == NULL || src == NULL)
         return false;
 
+    if (src->size > 0 && src->digits == NULL)
+        return false;
+
     if (dst->capacity < src->size)
     {
         if (!FOS_bignum_reserve(dst, src->size))
