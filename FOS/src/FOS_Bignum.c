@@ -77,8 +77,6 @@ bool FOS_bignum_copy(FOS_Bignum *dst, const FOS_Bignum *src)
     {
         if (!FOS_bignum_reserve(dst, src->size))
             return false;
-
-        dst->capacity = src->size;
     }
 
     memcpy(dst->digits, src->digits, src->size * sizeof(uint32_t));
@@ -514,7 +512,9 @@ bool FOS_bignum_multiply(FOS_Bignum *res, const FOS_Bignum *a, const FOS_Bignum 
         return false;
     }
 
-    if (!FOS_bignum_reserve(&temp, fst->size + snd->size))
+    size_t max_digits = fst->size + snd->size;
+
+    if (!FOS_bignum_reserve(&temp, max_digits))
     {
         FOS_bignum_free(&temp);
         if (alias) FOS_bignum_free(&tmp);
@@ -522,7 +522,7 @@ bool FOS_bignum_multiply(FOS_Bignum *res, const FOS_Bignum *a, const FOS_Bignum 
     }
 
     memset(temp.digits, 0, temp.capacity * sizeof(uint32_t));
-    temp.size = fst->size + snd->size;
+    temp.size = 0;
     temp.sign = +1;
 
     for (size_t j = 0; j < snd->size; ++j)
@@ -543,6 +543,13 @@ bool FOS_bignum_multiply(FOS_Bignum *res, const FOS_Bignum *a, const FOS_Bignum 
 
         while (carry)
         {
+            if (k >= temp.capacity)
+            {
+                FOS_bignum_free(&temp);
+                if (alias) FOS_bignum_free(&tmp);
+                return false;
+            }
+
             uint64_t sum = (uint64_t)temp.digits[k] + carry;
 
             temp.digits[k] = (uint32_t)(sum % FOS_BIGNUM_BASE);
@@ -552,7 +559,7 @@ bool FOS_bignum_multiply(FOS_Bignum *res, const FOS_Bignum *a, const FOS_Bignum 
         }
     }
 
-    FOS_bignum_trim(&temp);
+    FOS_bignum_trim(&temp);  // sets correct size and handles zero
 
     if (out->capacity < temp.size)
     {
@@ -565,13 +572,19 @@ bool FOS_bignum_multiply(FOS_Bignum *res, const FOS_Bignum *a, const FOS_Bignum 
 
             return false;
         }
-
-        out->capacity = temp.size;
     }
 
     memcpy(out->digits, temp.digits, temp.size * sizeof(uint32_t));
     out->size = temp.size;
-    out->sign = a->sign * b->sign;
+
+    if (a->sign == b->sign)
+        out->sign = +1;
+    else
+        out->sign = -1;
+
+    // optional: normalize zero sign if your trim doesn't guarantee it
+    if (out->size == 1 && out->digits[0] == 0)
+        out->sign = +1;
 
     FOS_bignum_free(&temp);
 
