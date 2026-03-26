@@ -273,7 +273,7 @@ bool FOS_hashmap_resize(FOS_HashMap *map)
     if (slots == NULL)
         return false;
 
-    void **allocs = calloc(new_capacity, sizeof(void *));
+    void **allocs = calloc(map->size * 2, sizeof(void *));
     size_t to_free = 0;
 
     for (size_t i = 0; i < map->capacity; ++i)
