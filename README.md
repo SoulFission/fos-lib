@@ -8,5 +8,6 @@ Currently implemented:
 - FOS_HashMap (a key/value storage)
 - FOS_Vec (a dynamic array)
 - FOS_String (strings with owned data, non-owning slices; no Unicode support yet)
+- FOS_Bignum (arbitrary-precision integers and arithmetic)
 
 Documentation and examples will be added later.
