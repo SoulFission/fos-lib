@@ -7,5 +7,6 @@ Currently implemented:
 - FOS_Rng (a pseudo-random numbers generator)
 - FOS_HashMap (a key/value storage)
 - FOS_Vec (a dynamic array)
+- FOS_String (strings with owned data, non-owning slices; no Unicode support yet)
 
 Documentation and examples will be added later.

@@ -1,3 +1,5 @@
+#include "FOS_String.h"
+
 FOS_String FOS_str_new(void)
 {
     FOS_String fos_str = { 0 };

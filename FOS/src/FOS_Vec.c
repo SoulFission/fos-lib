@@ -1,3 +1,5 @@
+#include "FOS_Vec.h"
+
 FOS_Vec FOS_vec_new(size_t elem_size)
 {
     if (elem_size == 0)
