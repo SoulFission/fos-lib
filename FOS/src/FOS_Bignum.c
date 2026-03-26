@@ -524,8 +524,8 @@ bool FOS_bignum_multiply(FOS_Bignum *res, const FOS_Bignum *a, const FOS_Bignum 
         return false;
     }
 
-    memset(temp.digits, 0, temp.capacity * sizeof(uint32_t));
-    temp.size = 0;
+    memset(temp.digits, 0, max_digits * sizeof(uint32_t));
+    temp.size = max_digits;
     temp.sign = +1;
 
     for (size_t j = 0; j < snd->size; ++j)
@@ -1028,36 +1028,58 @@ bool FOS_bignum_from_cstr(FOS_Bignum *bn, const char *num)
 
     return true;
 }
-
-bool FOS_bignum_to_cstr(const FOS_Bignum *bn, char *num, size_t buf)
+bool FOS_bignum_to_cstr(const FOS_Bignum *bn, char *buf, size_t buf_size)
 {
-    if (bn == NULL || bn->digits == NULL || num == NULL)
+    if (bn == NULL || buf == NULL || buf_size == 0)
         return false;
 
     if (bn->size == 0)
     {
-        num[0] = '0';
-        num[1] = '\0';
+        if (buf_size < 2)
+            return false;
+
+        buf[0] = '0';
+        buf[1] = '\0';
         return true;
     }
 
-    if (buf < bn->size * 9 + 2)
-        return false;
-
     size_t pos = 0;
 
-    /* handle sign */
+    // Handle sign
     if (bn->sign < 0)
-        num[pos++] = '-';
+    {
+        if (pos + 1 >= buf_size)
+            return false;
 
-    /* print most significant digit */
-    size_t i = bn->size - 1;
-    pos += sprintf(num + pos, "%u", bn->digits[i]);
+        buf[pos++] = '-';
+    }
 
-    /* print remaining digits with zero-padding */
-    while (i-- > 0)
-        pos += sprintf(num + pos, "%09u", bn->digits[i]);
+    // Print most significant digit
+    uint32_t msd = bn->digits[bn->size - 1];
 
-    num[pos] = '\0';
+    int written = snprintf(buf + pos, buf_size - pos, "%u", msd);
+    if (written < 0 || (size_t)written >= buf_size - pos)
+        return false;
+
+    pos += (size_t)written;
+
+    // Print remaining digits with zero padding (9 digits each)
+    for (size_t i = bn->size - 1; i-- > 0;)
+    {
+        if (pos + 9 >= buf_size)
+            return false;
+
+        written = snprintf(buf + pos, buf_size - pos, "%09u", bn->digits[i]);
+        if (written != 9)
+            return false;
+
+        pos += 9;
+    }
+
+    // Null-terminate
+    if (pos >= buf_size)
+        return false;
+
+    buf[pos] = '\0';
     return true;
 }
