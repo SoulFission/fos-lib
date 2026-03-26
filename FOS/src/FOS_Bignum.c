@@ -13,6 +13,12 @@ bool FOS_bignum_init(FOS_Bignum *bn)
     return true;
 }
 
+void FOS_bignum_set_max_digits(size_t max)
+{
+    // 0 means "no limit"
+    fos_bignum_max_digits = max;
+}
+
 void FOS_bignum_free(FOS_Bignum *bn)
 {
     if (bn == NULL)
@@ -29,6 +35,9 @@ void FOS_bignum_free(FOS_Bignum *bn)
 bool FOS_bignum_reserve(FOS_Bignum *bn, size_t cap)
 {
     if (bn == NULL)
+        return false;
+
+    if (fos_bignum_max_digits != 0 && cap > fos_bignum_max_digits)
         return false;
 
     if (cap <= bn->capacity)
@@ -66,12 +75,9 @@ bool FOS_bignum_copy(FOS_Bignum *dst, const FOS_Bignum *src)
 
     if (dst->capacity < src->size)
     {
-        uint32_t *tmp = realloc(dst->digits, src->size * sizeof(uint32_t));
-        
-        if (tmp == NULL)
+        if (!FOS_bignum_reserve(dst, src->size))
             return false;
 
-        dst->digits = tmp;
         dst->capacity = src->size;
     }
 
@@ -342,9 +348,7 @@ bool FOS_bignum_add(FOS_Bignum *res, const FOS_Bignum *a, const FOS_Bignum *b)
 
         if (out->capacity < max + 1)
         {
-            uint32_t *buf = realloc(out->digits, (max + 1) * sizeof(uint32_t));
-
-            if (buf == NULL)
+            if (!FOS_bignum_reserve(out, max + 1))
             {
                 if (alias) 
                     FOS_bignum_free(&tmp);
@@ -352,7 +356,6 @@ bool FOS_bignum_add(FOS_Bignum *res, const FOS_Bignum *a, const FOS_Bignum *b)
                 return false;
             }
 
-            out->digits = buf;
             out->capacity = max + 1;
         }
 
@@ -405,16 +408,14 @@ bool FOS_bignum_add(FOS_Bignum *res, const FOS_Bignum *a, const FOS_Bignum *b)
 
         if (out->capacity < larger->size)
         {
-            uint32_t *buf = realloc(out->digits, larger->size * sizeof(uint32_t));
-
-            if (buf == NULL)
+            if (!FOS_bignum_reserve(out, larger->size))
             {
                 if (alias) 
                     FOS_bignum_free(&tmp);
 
                 return false;
             }
-            out->digits = buf;
+
             out->capacity = larger->size;
         }
 
@@ -464,96 +465,24 @@ bool FOS_bignum_subtract(FOS_Bignum *res, const FOS_Bignum *a, const FOS_Bignum 
     if (res == NULL || a == NULL || b == NULL)
         return false;
 
-    bool alias = (res == a) || (res == b);
+    FOS_Bignum neg_b;
 
-    FOS_Bignum tmp;
-    FOS_Bignum *out = res;
+    if (!FOS_bignum_init(&neg_b))
+        return false;
 
-    if (alias)
+    if (!FOS_bignum_copy(&neg_b, b))
     {
-        if (!FOS_bignum_init(&tmp))
-            return false;
-
-        out = &tmp;
+        FOS_bignum_free(&neg_b);
+        return false;
     }
 
-    const FOS_Bignum *big = a;
-    const FOS_Bignum *small = b;
-    int sign = +1;
+    neg_b.sign = -neg_b.sign;
 
-    if (a->size < b->size)
-    {
-        big = b;
-        small = a;
-        sign = -1;
-    }
-    else if (a->size == b->size)
-    {
-        for (size_t i = a->size; i-- > 0;)
-        {
-            if (a->digits[i] < b->digits[i])
-            {
-                big = b;
-                small = a;
-                sign = -1;
-                break;
-            }
-            else if (a->digits[i] > b->digits[i])
-                break;
-        }
-    }
+    bool ok = FOS_bignum_add(res, a, &neg_b);
 
-    if (out->capacity < big->size)
-    {
-        uint32_t *buf = realloc(out->digits, big->size * sizeof(uint32_t));
+    FOS_bignum_free(&neg_b);
 
-        if (buf == NULL)
-        {
-            if (alias) 
-                FOS_bignum_free(&tmp);
-
-            return false;
-        }
-
-        out->digits = buf;
-        out->capacity = big->size;
-    }
-
-    uint64_t borrow = 0;
-
-    for (size_t i = 0; i < big->size; ++i)
-    {
-        uint64_t x = big->digits[i];
-        uint64_t y = (i < small->size) ? small->digits[i] : 0;
-
-        uint64_t sub = x - y - borrow;
-
-        if (x < y + borrow)
-        {
-            sub += FOS_BIGNUM_BASE;
-            borrow = 1;
-        }
-        else
-            borrow = 0;
-
-        out->digits[i] = (uint32_t)sub;
-    }
-
-    out->size = big->size;
-    out->sign = sign;
-
-    FOS_bignum_trim(out);
-
-    if (alias)
-    {
-        bool ok = FOS_bignum_copy(res, out);
-
-        FOS_bignum_free(&tmp);
-
-        return ok;
-    }
-
-    return true;
+    return ok;
 }
 
 bool FOS_bignum_multiply(FOS_Bignum *res, const FOS_Bignum *a, const FOS_Bignum *b)
@@ -627,15 +556,16 @@ bool FOS_bignum_multiply(FOS_Bignum *res, const FOS_Bignum *a, const FOS_Bignum 
 
     if (out->capacity < temp.size)
     {
-        uint32_t *buf = realloc(out->digits, temp.size * sizeof(uint32_t));
-        if (!buf)
+        if (!FOS_bignum_reserve(out, temp.size))
         {
             FOS_bignum_free(&temp);
-            if (alias) FOS_bignum_free(&tmp);
+            
+            if (alias) 
+                FOS_bignum_free(&tmp);
+
             return false;
         }
 
-        out->digits = buf;
         out->capacity = temp.size;
     }
 
@@ -1039,14 +969,18 @@ bool FOS_bignum_from_cstr(FOS_Bignum *bn, const char *num)
     if (bn == NULL || num == NULL)
         return false;
 
+    size_t len = strlen(num);
+
+    if (fos_bignum_max_digits != 0 &&
+        len > fos_bignum_max_digits * 9)
+        return false;
+
     if (!FOS_bignum_reserve(bn, 8))
         return false;
 
     bn->size = 1;
     bn->digits[0] = 0;
     bn->sign = +1;
-
-    size_t len = strlen(num);
 
     int sign = +1;
     size_t start = 0;
@@ -1073,9 +1007,8 @@ bool FOS_bignum_from_cstr(FOS_Bignum *bn, const char *num)
             return false;
     }
 
-    FOS_bignum_trim(bn);
-
     bn->sign = sign;
+    FOS_bignum_trim(bn);
 
     return true;
 }

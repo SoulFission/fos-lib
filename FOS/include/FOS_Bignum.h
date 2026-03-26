@@ -9,7 +9,15 @@
 #include <string.h>
 #include <ctype.h>
 
+#if defined(_MSC_VER)
+    #define FOS_THREAD_LOCAL __declspec(thread)
+#else
+    #define FOS_THREAD_LOCAL _Thread_local
+#endif
+
 #define FOS_BIGNUM_BASE 1000000000u
+
+FOS_THREAD_LOCAL static size_t fos_bignum_max_digits = 0; // Unbounded
 
 typedef struct {
     uint32_t *digits;
@@ -19,8 +27,9 @@ typedef struct {
 } FOS_Bignum;
 
 bool FOS_bignum_init(FOS_Bignum *bn);
-bool FOS_bignum_reserve(FOS_Bignum *bn, size_t cap);
+void FOS_bignum_set_max_digits(size_t max);
 void FOS_bignum_free(FOS_Bignum *bn);
+bool FOS_bignum_reserve(FOS_Bignum *bn, size_t cap);
 bool FOS_bignum_from_u64(FOS_Bignum *bn, uint64_t value);
 bool FOS_bignum_trim(FOS_Bignum *bn);
 bool FOS_bignum_copy(FOS_Bignum *dst, const FOS_Bignum *src);
