@@ -1064,6 +1064,9 @@ bool FOS_bignum_to_cstr(const FOS_Bignum *bn, char *buf, size_t buf_size)
     pos += (size_t)written;
 
     // Print remaining digits with zero padding (9 digits each)
+    if (bn->size == 0) 
+        return false;
+
     for (size_t i = bn->size - 1; i-- > 0;)
     {
         if (pos + 9 >= buf_size)
