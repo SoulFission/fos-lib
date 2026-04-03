@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <ctype.h>
+#include <stdbool.h>
 
 static const size_t FOS_DEFAULT_CAPACITY = 64;
 
