@@ -6,8 +6,11 @@ bool FOS_bignum_init(FOS_Bignum *bn)
         return false;
 
     bn->digits = NULL;
-    bn->size = 0;
     bn->capacity = 0;
+
+    FOS_bignum_reserve(bn, 1);
+
+    bn->size = 1;
     bn->sign = +1;
 
     return true;
@@ -231,38 +234,22 @@ bool FOS_bignum_add_u32(FOS_Bignum *bn, uint32_t d)
 
 bool FOS_bignum_sub_u32(FOS_Bignum *bn, uint32_t d)
 {
-    if (bn == NULL || bn->digits == NULL)
+    if (bn == NULL)
         return false;
 
-    if (bn->size == 1 && bn->digits[0] < d)
-        return false; // cannot subtract more than bn
+    FOS_Bignum temp;
 
-    size_t i = 0;
-    int64_t borrow = d;
+    if (!FOS_bignum_init(&temp))
+        return false;
 
-    while (borrow != 0 && i < bn->size)
-    {
-        int64_t diff = (int64_t)bn->digits[i] - borrow;
+    if (!FOS_bignum_from_u64(&temp, (uint64_t)d))
+        return false;
 
-        if (diff < 0)
-        {
-            diff += FOS_BIGNUM_BASE;
-            borrow = 1;
-        }
-        else
-        {
-            borrow = 0;
-        }
+    bool ok = FOS_bignum_subtract(bn, bn, &temp);
 
-        bn->digits[i] = (uint32_t)diff;
-        i++;
-    }
+    FOS_bignum_free(&temp);
 
-    // Trim leading zeros
-    while (bn->size > 1 && bn->digits[bn->size - 1] == 0)
-        bn->size--;
-
-    return true;
+    return ok;
 }
 
 bool FOS_bignum_mul_u32(FOS_Bignum *bn, uint32_t d)
