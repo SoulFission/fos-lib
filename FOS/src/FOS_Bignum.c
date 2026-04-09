@@ -59,7 +59,7 @@ bool FOS_bignum_reserve(FOS_Bignum *bn, size_t cap)
 
 bool FOS_bignum_trim(FOS_Bignum *bn)
 {
-    if (bn == NULL)
+    if (bn == NULL || bn->digits == NULL)
         return false;
 
     while (bn->size > 1 && bn->digits[bn->size - 1] == 0)
@@ -73,7 +73,7 @@ bool FOS_bignum_trim(FOS_Bignum *bn)
 
 bool FOS_bignum_copy(FOS_Bignum *dst, const FOS_Bignum *src)
 {
-    if (dst == NULL || src == NULL)
+    if (dst == NULL || dst->digits == NULL || src == NULL || src->digits == NULL)
         return false;
 
     if (src->size > 0 && src->digits == NULL)
@@ -234,7 +234,7 @@ bool FOS_bignum_add_u32(FOS_Bignum *bn, uint32_t d)
 
 bool FOS_bignum_sub_u32(FOS_Bignum *bn, uint32_t d)
 {
-    if (bn == NULL)
+    if (bn == NULL || bn->digits == NULL)
         return false;
 
     FOS_Bignum temp;
@@ -1045,6 +1045,7 @@ bool FOS_bignum_to_cstr(const FOS_Bignum *bn, char *buf, size_t buf_size)
     uint32_t msd = bn->digits[bn->size - 1];
 
     int written = snprintf(buf + pos, buf_size - pos, "%u", msd);
+
     if (written < 0 || (size_t)written >= buf_size - pos)
         return false;
 
@@ -1060,6 +1061,7 @@ bool FOS_bignum_to_cstr(const FOS_Bignum *bn, char *buf, size_t buf_size)
             return false;
 
         written = snprintf(buf + pos, buf_size - pos, "%09u", bn->digits[i]);
+        
         if (written != 9)
             return false;
 
