@@ -1,4 +1,5 @@
 ﻿#include "FOS_HashMap.h"
+#include "FOS_Memory.h"
 
 uint64_t FOS_fnv1a(const void *data, size_t size)
 {
@@ -33,7 +34,7 @@ FOS_HashMap FOS_hashmap_new(size_t key_size, size_t value_size, FOS_HashFn hash_
 
     FOS_HashMap hmap = { 0 };
 
-    hmap.slots = calloc(FOS_HASHMAP_DEFAULT_CAP, sizeof(FOS_HashSlot));
+    hmap.slots = FOS_calloc(FOS_HASHMAP_DEFAULT_CAP, sizeof(FOS_HashSlot));
 
     if (hmap.slots == NULL)
         return (FOS_HashMap) { 0 };
@@ -86,7 +87,7 @@ bool FOS_hashmap_put(FOS_HashMap *map, const void *key, const void *value)
             }
 
             slot = &map->slots[index];
-            slot->key = malloc(map->key_size);
+            slot->key = FOS_alloc(map->key_size);
 
             if (slot->key == NULL)
             {
@@ -96,11 +97,11 @@ bool FOS_hashmap_put(FOS_HashMap *map, const void *key, const void *value)
                 return false;
             }   
 
-            slot->value = malloc(map->value_size);
+            slot->value = FOS_alloc(map->value_size);
 
             if (slot->value == NULL)
             {
-                free(slot->key);
+                FOS_free(slot->key);
 
                 if (first_tombstone != SIZE_MAX)
                     map->tombstones++;
@@ -130,16 +131,16 @@ bool FOS_hashmap_put(FOS_HashMap *map, const void *key, const void *value)
     {
         FOS_HashSlot *slot = &map->slots[first_tombstone];
 
-        slot->key = malloc(map->key_size);
+        slot->key = FOS_alloc(map->key_size);
 
         if (slot->key == NULL)
             return false;
 
-        slot->value = malloc(map->value_size);
+        slot->value = FOS_alloc(map->value_size);
 
         if (slot->value == NULL)
         {
-            free(slot->key);
+            FOS_free(slot->key);
             return false;
         }
 
@@ -203,12 +204,12 @@ void FOS_hashmap_free(FOS_HashMap *map)
 
         if (slot->state == FOS_OCCUPIED)
         {
-            free(slot->key);
-            free(slot->value);
+            FOS_free(slot->key);
+            FOS_free(slot->value);
         }
     }
 
-    free(map->slots);
+    FOS_free(map->slots);
 
     map->slots = NULL;
     map->capacity = 0;
@@ -240,8 +241,8 @@ bool FOS_hashmap_remove(FOS_HashMap *map, const void *key)
         {
             if (slot->hash == hash && map->eq(slot->key, key, map->key_size))
             {
-                free(slot->key);
-                free(slot->value);
+                FOS_free(slot->key);
+                FOS_free(slot->value);
                 
                 slot->state = FOS_TOMBSTONE;
 
@@ -268,12 +269,12 @@ bool FOS_hashmap_resize(FOS_HashMap *map)
     if (new_capacity < map->capacity) 
         return false; // overflow protection
 
-    FOS_HashSlot *slots = calloc(new_capacity, sizeof(FOS_HashSlot)); // all zeros, no need to assign FOS_EMPTY to every element
+    FOS_HashSlot *slots = FOS_calloc(new_capacity, sizeof(FOS_HashSlot)); // all zeros, no need to assign FOS_EMPTY to every element
 
     if (slots == NULL)
         return false;
 
-    void **allocs = calloc(map->size * 2, sizeof(void *));
+    void **allocs = FOS_calloc(map->size * 2, sizeof(void *));
     size_t to_free = 0;
 
     for (size_t i = 0; i < map->capacity; ++i)
@@ -289,14 +290,14 @@ bool FOS_hashmap_resize(FOS_HashMap *map)
             FOS_HashSlot *slot = &map->slots[i];
             FOS_HashSlot *new_slot = &slots[index];
 
-            new_slot->key = malloc(map->key_size);
+            new_slot->key = FOS_alloc(map->key_size);
 
             if (new_slot->key == NULL)
                 goto cleanup;
 
             allocs[to_free++] = new_slot->key;
 
-            new_slot->value = malloc(map->value_size);
+            new_slot->value = FOS_alloc(map->value_size);
 
             if (new_slot->value == NULL)
                 goto cleanup;
@@ -311,21 +312,21 @@ bool FOS_hashmap_resize(FOS_HashMap *map)
         }
     }
 
-    free(map->slots);
+    FOS_free(map->slots);
 
     map->slots = slots;
     map->capacity = new_capacity;
     map->tombstones = 0;
 
     // size stays the same
-    free(allocs);
+    FOS_free(allocs);
 
     return true;
 
 cleanup:
     for (size_t i = 0; i < to_free; ++i)
-        free(allocs[i]);
-    free(allocs);
+        FOS_free(allocs[i]);
+    FOS_free(allocs);
 
     return false;
 }

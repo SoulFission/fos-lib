@@ -1,11 +1,12 @@
 #include "FOS_String.h"
+#include "FOS_Memory.h"
 
 FOS_String FOS_str_new(void)
 {
     FOS_String fos_str = { 0 };
 
     fos_str.capacity = FOS_DEFAULT_CAPACITY;
-    fos_str.str = calloc(fos_str.capacity, 1);
+    fos_str.str = FOS_calloc(fos_str.capacity, 1);
 
     if (fos_str.str == NULL)
         return (FOS_String) { 0 };
@@ -20,7 +21,7 @@ FOS_String FOS_str_new_cpc(size_t capacity)
 
     FOS_String new_str = { 0 };
 
-    new_str.str = calloc(capacity, 1);
+    new_str.str = FOS_calloc(capacity, 1);
 
     if (new_str.str == NULL)
         return (FOS_String) { 0 };
@@ -37,7 +38,7 @@ FOS_String FOS_str_copy(FOS_String src)
 
     FOS_String cpy = { 0 };
 
-    cpy.str = malloc(src.capacity);
+    cpy.str = FOS_alloc(src.capacity);
     
     if (cpy.str == NULL)
         return (FOS_String) { 0 };
@@ -64,7 +65,7 @@ FOS_String FOS_str_from_cstr(const char *cstr)
     if (fos_str.capacity < FOS_DEFAULT_CAPACITY)
         fos_str.capacity = FOS_DEFAULT_CAPACITY;
 
-    fos_str.str = malloc(fos_str.capacity);
+    fos_str.str = FOS_alloc(fos_str.capacity);
     
     if (fos_str.str == NULL)
         return (FOS_String) { 0 };
@@ -81,7 +82,7 @@ char *FOS_str_cstr(FOS_String fos_str)
     if (fos_str.str == NULL)
         return NULL;
 
-    char *cstr = calloc(fos_str.size + 1, 1);
+    char *cstr = FOS_calloc(fos_str.size + 1, 1);
 
     if (cstr == NULL)
         return NULL;
@@ -96,7 +97,7 @@ void FOS_str_free(FOS_String *fos_str)
     if (fos_str == NULL)
         return;
 
-    free(fos_str->str);
+    FOS_free(fos_str->str);
 
     fos_str->str = NULL;
     fos_str->size = 0;
@@ -154,7 +155,7 @@ size_t FOS_slice_find_subslice(FOS_Slice haystack, FOS_Slice needle)
     if (haystack.size < needle.size)
         return SIZE_MAX;
 
-    size_t *lps = malloc(needle.size * sizeof(size_t));
+    size_t *lps = FOS_alloc(needle.size * sizeof(size_t));
 
     if (!lps)
         return SIZE_MAX; // allocation failed
@@ -187,12 +188,12 @@ size_t FOS_slice_find_subslice(FOS_Slice haystack, FOS_Slice needle)
 
         if (j == needle.size) 
         {
-            free(lps);
+            FOS_free(lps);
             return i - needle.size + 1; // found at this position
         }
     }
 
-    free(lps);
+    FOS_free(lps);
     return SIZE_MAX; // not found
 }
 
@@ -204,7 +205,7 @@ size_t FOS_str_find_substr(FOS_String haystack, FOS_String needle)
     if (haystack.size < needle.size)
         return SIZE_MAX;
 
-    size_t *lps = malloc(needle.size * sizeof(size_t));
+    size_t *lps = FOS_alloc(needle.size * sizeof(size_t));
 
     if (lps == NULL)
         return SIZE_MAX; // allocation failed
@@ -237,12 +238,12 @@ size_t FOS_str_find_substr(FOS_String haystack, FOS_String needle)
 
         if (j == needle.size) 
         {
-            free(lps);
+            FOS_free(lps);
             return i - needle.size + 1; // found at this position
         }
     }
 
-    free(lps);
+    FOS_free(lps);
     return SIZE_MAX; // not found
 }
 
@@ -290,7 +291,7 @@ FOS_String FOS_slice_to_str(FOS_Slice fos_slc)
     if (new_str.capacity < FOS_DEFAULT_CAPACITY)
         new_str.capacity = FOS_DEFAULT_CAPACITY;
 
-    new_str.str = calloc(new_str.capacity, 1);
+    new_str.str = FOS_calloc(new_str.capacity, 1);
     
     if (new_str.str == NULL)
         return (FOS_String) { 0 };
@@ -319,7 +320,7 @@ bool FOS_str_grow(FOS_String *fos_str_ptr)
         new_capacity = fos_str_ptr->capacity * 2;
     }
     
-    char *ptr = realloc(fos_str_ptr->str, new_capacity);
+    char *ptr = FOS_realloc(fos_str_ptr->str, new_capacity);
 
     if (ptr == NULL)
         return false;
@@ -344,7 +345,7 @@ bool FOS_str_reserve(FOS_String *fos_str_ptr, size_t to_reserve)
     if (fos_str_ptr->size == SIZE_MAX)
         return false;
 
-    char *ptr = realloc(fos_str_ptr->str, to_reserve);
+    char *ptr = FOS_realloc(fos_str_ptr->str, to_reserve);
 
     if (ptr == NULL)
         return false;
@@ -363,7 +364,7 @@ FOS_String FOS_str_append_slice(FOS_String fos_str, FOS_Slice tail)
     FOS_String new_str = { 0 };
     size_t new_size = fos_str.size + tail.size;
 
-    new_str.str = calloc(new_size + 1, 1);
+    new_str.str = FOS_calloc(new_size + 1, 1);
 
     if (new_str.str == NULL)
         return (FOS_String) { 0 };
@@ -536,7 +537,7 @@ FOS_String FOS_str_concat(FOS_String s1, FOS_String s2)
 
     FOS_String new_str = { 0 };
 
-    new_str.str = calloc(new_size + 1, 1);
+    new_str.str = FOS_calloc(new_size + 1, 1);
 
     if (new_str.str == NULL)
         return (FOS_String) { 0 };
@@ -565,7 +566,7 @@ FOS_String FOS_str_replace(FOS_String src, FOS_Slice needle, FOS_Slice replaceme
 
     FOS_String new_str = { 0 };
     
-    new_str.str = calloc(new_size + 1, 1);
+    new_str.str = FOS_calloc(new_size + 1, 1);
 
     if (new_str.str == NULL)
         return (FOS_String) { 0 };
@@ -594,7 +595,7 @@ FOS_SliceArray FOS_slice_split_ch(FOS_Slice src, int ch)
 
     FOS_SliceArray slc_arr = { 0 };
 
-    slc_arr.data = calloc(count + 1, sizeof(FOS_Slice));
+    slc_arr.data = FOS_calloc(count + 1, sizeof(FOS_Slice));
 
     if (slc_arr.data == NULL)
         return (FOS_SliceArray) { 0 };
@@ -622,7 +623,7 @@ void FOS_slice_array_free(FOS_SliceArray *arr)
     if (arr == NULL)
         return;
 
-    free(arr->data);
+    FOS_free(arr->data);
 
     arr->data = NULL;
     arr->size = 0;
@@ -635,7 +636,7 @@ FOS_String FOS_str_reverse(FOS_String fos_str)
 
     FOS_String new_str = { 0 };
 
-    new_str.str = calloc(fos_str.size + 1, 1);
+    new_str.str = FOS_calloc(fos_str.size + 1, 1);
 
     if (new_str.str == NULL)
         return (FOS_String) { 0 };

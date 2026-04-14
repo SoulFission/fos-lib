@@ -1,4 +1,5 @@
 #include "FOS_Bignum.h"
+#include "FOS_Memory.h"
 
 bool FOS_bignum_init(FOS_Bignum *bn)
 {
@@ -27,7 +28,7 @@ void FOS_bignum_free(FOS_Bignum *bn)
     if (bn == NULL)
         return;
 
-    free(bn->digits);
+    FOS_free(bn->digits);
 
     bn->digits = NULL;
     bn->size = 0;
@@ -46,7 +47,7 @@ bool FOS_bignum_reserve(FOS_Bignum *bn, size_t cap)
     if (cap <= bn->capacity)
         return true;
 
-    uint32_t *tmp = realloc(bn->digits, cap * sizeof(uint32_t));
+    uint32_t *tmp = FOS_realloc(bn->digits, cap * sizeof(uint32_t));
     
     if (tmp == NULL)
         return false;

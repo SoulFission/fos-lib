@@ -1,4 +1,5 @@
 #include "FOS_Vec.h"
+#include "FOS_Memory.h"
 
 FOS_Vec FOS_vec_new(size_t elem_size)
 {
@@ -9,7 +10,7 @@ FOS_Vec FOS_vec_new(size_t elem_size)
 
     vec.elem_size = elem_size;
     vec.capacity = FOS_VEC_INIT_CAP;
-    vec.data = calloc(vec.capacity, elem_size);
+    vec.data = FOS_calloc(vec.capacity, elem_size);
 
     if (vec.data == NULL)
         return (FOS_Vec) { 0 };
@@ -22,7 +23,7 @@ void FOS_vec_free(FOS_Vec *vec)
     if (vec == NULL)
         return;
 
-    free(vec->data);
+    FOS_free(vec->data);
 
     *vec = (FOS_Vec) { 0 };
 }
@@ -43,7 +44,7 @@ bool FOS_vec_reserve(FOS_Vec *vec, size_t new_capacity)
     if (new_capacity <= vec->capacity)
         return true;
 
-    void *new_data = realloc(vec->data, new_capacity * vec->elem_size);
+    void *new_data = FOS_realloc(vec->data, new_capacity * vec->elem_size);
 
     if (new_data == NULL)
         return false;
@@ -144,7 +145,7 @@ bool FOS_vec_shrink_to_fit(FOS_Vec *vec)
     if (vec->size == vec->capacity)
         return true;
 
-    void *ptr = realloc(vec->data, vec->size * vec->elem_size);
+    void *ptr = FOS_realloc(vec->data, vec->size * vec->elem_size);
 
     if (ptr == NULL)
         return false;

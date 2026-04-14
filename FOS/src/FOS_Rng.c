@@ -1,4 +1,5 @@
 ﻿#include "FOS_Rng.h"
+#include "FOS_Memory.h"
 
 FOS_Rng FOS_rng_default(void)
 {
@@ -129,7 +130,7 @@ bool FOS_rng_shuffle_generic(void *data, size_t n, size_t elem_size, FOS_Rng *rn
     if (data == NULL || n == 0 || elem_size == 0 || rng == NULL)
         return false;
 
-    char *temp = malloc(elem_size);
+    char *temp = FOS_alloc(elem_size);
 
     if (temp == NULL)
         return false;
@@ -143,7 +144,7 @@ bool FOS_rng_shuffle_generic(void *data, size_t n, size_t elem_size, FOS_Rng *rn
         memmove((char *)data + j * elem_size, temp, elem_size);
     }
     
-    free(temp);
+    FOS_free(temp);
 
     return true;
 }
