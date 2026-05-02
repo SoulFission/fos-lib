@@ -1,13 +1,9 @@
 #ifndef FOS_BIGNUM_H
 #define FOS_BIGNUM_H
 
-#include <stdio.h>
 #include <stdint.h>
 #include <stddef.h>
-#include <stdlib.h>
 #include <stdbool.h>
-#include <string.h>
-#include <ctype.h>
 
 #if defined(_MSC_VER)
     #define FOS_THREAD_LOCAL __declspec(thread)

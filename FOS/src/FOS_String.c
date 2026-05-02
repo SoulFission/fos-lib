@@ -1,5 +1,9 @@
 #include "FOS_String.h"
 #include "FOS_Memory.h"
+#include <ctype.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdint.h>
 
 FOS_String FOS_str_new(void)
 {

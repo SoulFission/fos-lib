@@ -2,10 +2,7 @@
 #define FOS_STRING_H
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
-#include <ctype.h>
+#include <stddef.h>
 #include <stdbool.h>
 
 static const size_t FOS_DEFAULT_CAPACITY = 64;

@@ -1,13 +1,9 @@
 #ifndef FOS_RNG_H
 #define FOS_RNG_H
 
-#include <stdio.h>
 #include <stdint.h>
-#include <limits.h>
-#include <time.h>
+#include <stddef.h>
 #include <stdbool.h>
-#include <stdlib.h>
-#include <string.h>
 
 #if defined(_MSC_VER)
     #define FOS_THREAD_LOCAL __declspec(thread)

@@ -1,10 +1,8 @@
 #ifndef FOS_VEC_H
 #define FOS_VEC_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <stdbool.h>
+#include <stddef.h>
 
 #define FOS_VEC_DEFINE(TYPE, NAME) \
 typedef FOS_Vec FOS_Vec_##NAME; \

@@ -1,5 +1,9 @@
 #include "FOS_Bignum.h"
 #include "FOS_Memory.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
 bool FOS_bignum_init(FOS_Bignum *bn)
 {

@@ -1,5 +1,9 @@
 ﻿#include "FOS_Rng.h"
 #include "FOS_Memory.h"
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <limits.h>
 
 FOS_Rng FOS_rng_default(void)
 {

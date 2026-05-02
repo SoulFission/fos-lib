@@ -1,5 +1,7 @@
 ﻿#include "FOS_HashMap.h"
 #include "FOS_Memory.h"
+#include <string.h>
+#include <stdlib.h>
 
 uint64_t FOS_fnv1a(const void *data, size_t size)
 {

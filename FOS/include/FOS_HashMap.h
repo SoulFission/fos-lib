@@ -3,8 +3,6 @@
 
 #include <stdint.h>
 #include <stddef.h>
-#include <string.h>
-#include <stdlib.h>
 #include <stdbool.h>
 
 typedef uint64_t (*FOS_HashFn)(const void *data, size_t size);

@@ -7,6 +7,7 @@ The following modules use leaf-based design, so they are not dependent on each o
 - FOS_Vec (a dynamic array)
 - FOS_String (strings with owned data, non-owning slices; no Unicode support yet)
 - FOS_Bignum (arbitrary-precision integers and arithmetic)
+- FOS_List (a generic singly-linked list)
 
 But every module depends on a custom configurable allocator:
 - FOS_Memory

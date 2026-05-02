@@ -1,5 +1,8 @@
 #include "FOS_Vec.h"
 #include "FOS_Memory.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 FOS_Vec FOS_vec_new(size_t elem_size)
 {
