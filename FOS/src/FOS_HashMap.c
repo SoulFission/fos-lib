@@ -59,6 +59,12 @@ bool FOS_hashmap_put(FOS_HashMap *map, const void *key, const void *value)
     if (map == NULL || map->slots == NULL || key == NULL || value == NULL)
         return false;
 
+    if ((double)(map->size + map->tombstones + 1) / map->capacity > FOS_THRESHOLD)
+    {
+        if (!FOS_hashmap_resize(map))
+            return false;
+    }
+
     uint64_t hash = map->hash(key, map->key_size);
     size_t index = hash & (map->capacity - 1);
 
@@ -104,6 +110,7 @@ bool FOS_hashmap_put(FOS_HashMap *map, const void *key, const void *value)
             if (slot->value == NULL)
             {
                 FOS_free(slot->key);
+                slot->key = NULL;
 
                 if (first_tombstone != SIZE_MAX)
                     map->tombstones++;
@@ -118,10 +125,6 @@ bool FOS_hashmap_put(FOS_HashMap *map, const void *key, const void *value)
             slot->hash = hash;
 
             map->size++;
-
-            if ((double)(map->size + map->tombstones) / map->capacity > FOS_THRESHOLD)
-                if (!FOS_hashmap_resize(map))
-                    return false;
 
             return true;
         }
@@ -154,10 +157,6 @@ bool FOS_hashmap_put(FOS_HashMap *map, const void *key, const void *value)
 
         map->size++;
         map->tombstones--;
-
-        if ((double)(map->size + map->tombstones) / map->capacity > FOS_THRESHOLD)
-            if (!FOS_hashmap_resize(map))
-                return false;
 
         return true;
     }
@@ -248,6 +247,9 @@ bool FOS_hashmap_remove(FOS_HashMap *map, const void *key)
                 
                 slot->state = FOS_TOMBSTONE;
 
+                slot->key = NULL;
+                slot->value = NULL;
+
                 map->size--;
                 map->tombstones++;
 
@@ -268,49 +270,31 @@ bool FOS_hashmap_resize(FOS_HashMap *map)
 
     size_t new_capacity = map->capacity * 2;
 
-    if (new_capacity < map->capacity) 
-        return false; // overflow protection
+    if (new_capacity < map->capacity)
+        return false;
 
-    FOS_HashSlot *slots = FOS_calloc(new_capacity, sizeof(FOS_HashSlot)); // all zeros, no need to assign FOS_EMPTY to every element
+    FOS_HashSlot *slots = FOS_calloc(new_capacity, sizeof(FOS_HashSlot));
 
     if (slots == NULL)
         return false;
 
-    void **allocs = FOS_calloc(map->size * 2, sizeof(void *));
-    size_t to_free = 0;
-
     for (size_t i = 0; i < map->capacity; ++i)
     {
-        if (map->slots[i].state == FOS_OCCUPIED)
+        FOS_HashSlot *slot = &map->slots[i];
+
+        if (slot->state == FOS_OCCUPIED)
         {
-            uint64_t hash = map->hash(map->slots[i].key, map->key_size);
-            size_t index = hash & (new_capacity - 1);
+            size_t index = slot->hash & (new_capacity - 1);
 
             while (slots[index].state == FOS_OCCUPIED)
                 index = (index + 1) & (new_capacity - 1);
 
-            FOS_HashSlot *slot = &map->slots[i];
             FOS_HashSlot *new_slot = &slots[index];
 
-            new_slot->key = FOS_alloc(map->key_size);
-
-            if (new_slot->key == NULL)
-                goto cleanup;
-
-            allocs[to_free++] = new_slot->key;
-
-            new_slot->value = FOS_alloc(map->value_size);
-
-            if (new_slot->value == NULL)
-                goto cleanup;
-
-            allocs[to_free++] = new_slot->value;
-
-            memcpy(new_slot->key, slot->key, map->key_size);
-            memcpy(new_slot->value, slot->value, map->value_size);
-            
+            new_slot->key = slot->key;
+            new_slot->value = slot->value;
+            new_slot->hash = slot->hash;
             new_slot->state = FOS_OCCUPIED;
-            new_slot->hash = hash;
         }
     }
 
@@ -320,15 +304,5 @@ bool FOS_hashmap_resize(FOS_HashMap *map)
     map->capacity = new_capacity;
     map->tombstones = 0;
 
-    // size stays the same
-    FOS_free(allocs);
-
     return true;
-
-cleanup:
-    for (size_t i = 0; i < to_free; ++i)
-        FOS_free(allocs[i]);
-    FOS_free(allocs);
-
-    return false;
 }
