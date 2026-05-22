@@ -166,9 +166,11 @@ bool FOS_hashmap_put(FOS_HashMap *map, const void *key, const void *value)
 
 bool FOS_hashmap_get(const FOS_HashMap *map, const void *key, void *out_value)
 {
-    if (map == NULL || map->slots == NULL || key == NULL || out_value == NULL || map->size == 0)
+    if (map == NULL || map->slots == NULL || key == NULL || map->size == 0)
         return false;
-    
+
+    bool out_val_null = (out_value == NULL);
+
     uint64_t hash = map->hash(key, map->key_size);
     size_t index = hash & (map->capacity - 1);
 
@@ -183,7 +185,9 @@ bool FOS_hashmap_get(const FOS_HashMap *map, const void *key, void *out_value)
         {
             if (slot->hash == hash && map->eq(slot->key, key, map->key_size))
             {
-                memcpy(out_value, slot->value, map->value_size);
+                if (!out_val_null)
+                    memcpy(out_value, slot->value, map->value_size);
+
                 return true;
             }
         }
@@ -192,6 +196,11 @@ bool FOS_hashmap_get(const FOS_HashMap *map, const void *key, void *out_value)
     }
 
     return false;
+}
+
+bool FOS_hashmap_contains(const FOS_HashMap *map, const void *key)
+{
+    return FOS_hashmap_get(map, key, NULL);
 }
 
 void FOS_hashmap_free(FOS_HashMap *map)

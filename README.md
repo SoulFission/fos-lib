@@ -12,4 +12,7 @@ The following modules use leaf-based design, so they are not dependent on each o
 But every module depends on a custom configurable allocator:
 - FOS_Memory
 
+This module depends on FOS_HashMap:
+- FOS_Set (a container of unordered unique values)
+
 Documentation and examples will be added later.

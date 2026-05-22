@@ -42,6 +42,7 @@ bool FOS_key_eq(const void *a, const void *b, size_t size);
 FOS_HashMap FOS_hashmap_new(size_t key_size, size_t value_size, FOS_HashFn hash_fn, FOS_KeyEqFn key_eq_fn);
 bool FOS_hashmap_put(FOS_HashMap *map, const void *key, const void *value);
 bool FOS_hashmap_get(const FOS_HashMap *map, const void *key, void *out_value);
+bool FOS_hashmap_contains(const FOS_HashMap *map, const void *key);
 void FOS_hashmap_free(FOS_HashMap *map);
 bool FOS_hashmap_is_valid(const FOS_HashMap *map);
 bool FOS_hashmap_remove(FOS_HashMap *map, const void *key);
