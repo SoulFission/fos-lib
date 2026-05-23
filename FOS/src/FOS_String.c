@@ -5,6 +5,8 @@
 #include <string.h>
 #include <stdint.h>
 
+static bool FOS_char_is_space(int ch);
+
 FOS_String FOS_str_new(void)
 {
     FOS_String fos_str = { 0 };
@@ -729,6 +731,11 @@ bool FOS_slice_eq(FOS_Slice a, FOS_Slice b)
     return memcmp(a.data, b.data, a.size) == 0;
 }
 
+static bool FOS_char_is_space(int ch)
+{
+    return isspace((unsigned char)ch);
+}
+
 FOS_Slice FOS_slice_next_token_trimmed(FOS_Slice *input, int sep)
 {
     if (input == NULL || !FOS_slice_valid(*input))
@@ -757,13 +764,16 @@ FOS_Slice FOS_slice_next_token_trimmed(FOS_Slice *input, int sep)
     input->data += end;
     input->size -= end;
 
-    /* trim whitespace from token */
-    FOS_String temp = FOS_slice_to_str(token);
-    temp = FOS_str_trim(temp);
-    token = FOS_str_as_slice(temp); // creates a slice pointing to temp
+    while (token.size > 0 && FOS_char_is_space(token.data[0]))
+    {
+        ++token.data;
+        --token.size;
+    }
 
-    /* Note: temp must be freed after use, or stored in a pool if you reuse it */
-    FOS_str_free(&temp);
+    while (token.size > 0 && FOS_char_is_space(token.data[token.size - 1]))
+    {
+        --token.size;
+    }
 
     return token;
 }
