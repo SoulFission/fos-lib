@@ -15,4 +15,7 @@ But every module depends on a custom configurable allocator:
 This module depends on FOS_HashMap:
 - FOS_Set (a container of unordered unique values)
 
+This module depends on FOS_List:
+- FOS_Stack (a generic LIFO container)
+
 Documentation and examples will be added later.
