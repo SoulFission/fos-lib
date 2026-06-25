@@ -21,4 +21,7 @@ These modules depend on FOS_List:
 - FOS_Stack (a generic LIFO container)
 - FOS_Queue (a generic FIFO container)
 
+This module depends on FOS_Vec and FOS_Memory:
+- FOS_Heap (a priority queue using a binary heap stored in a dynamic array)
+
 Documentation and examples will be added later.
