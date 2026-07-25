@@ -5,6 +5,12 @@
 #include <stddef.h>
 #include <stdbool.h>
 
+/* Strings with owned data,
+ * non-owning slices.
+ * 
+ * No Unicode support yet.
+ */
+
 static const size_t FOS_DEFAULT_CAPACITY = 64;
 
 typedef struct {
@@ -64,4 +70,4 @@ FOS_Slice FOS_slice_trim(FOS_Slice s);
 bool FOS_slice_eq(FOS_Slice a, FOS_Slice b);
 FOS_Slice FOS_slice_next_token_trimmed(FOS_Slice *input, int sep);
 
-#endif
+#endif // FOS_STRING_H

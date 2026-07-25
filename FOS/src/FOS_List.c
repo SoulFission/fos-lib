@@ -200,6 +200,46 @@ const void *FOS_list_at(const FOS_List *list, size_t pos)
     return NULL;
 }
 
+bool FOS_list_remove_at(FOS_List *list, size_t pos)
+{
+    if (list == NULL || list->head == NULL)
+        return false;
+
+    if (pos == 0)
+        return FOS_list_pop_front(list, NULL);
+
+    FOS_ListNode *current = list->head;
+    FOS_ListNode *prev = NULL;
+    size_t i = 0;
+
+    while (current != NULL)
+    {
+        if (i == pos)
+        {
+            if (current == list->tail)
+            {
+                list->tail = prev;
+                prev->next = NULL;
+            }
+            else
+                prev->next = current->next;
+
+            FOS_free(current->data);
+            FOS_free(current);
+
+            --list->size;
+
+            return true;
+        }
+
+        prev = current;
+        current = current->next;
+        ++i;
+    }
+
+    return false;
+}
+
 void *FOS_list_at_mut(FOS_List *list, size_t pos)
 {
     if (list == NULL)

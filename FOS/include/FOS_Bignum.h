@@ -5,6 +5,14 @@
 #include <stddef.h>
 #include <stdbool.h>
 
+/* FOS_Bignum is a module for arbitrary-precision integer arithmetic.
+ * It introduces the type `FOS_Bignum` which can be used to compute
+ * anything that doesn't fit in largest standard integer types.
+ * 
+ * Struct assignment is not advised, otherwise the two numbers would
+ * share the same buffer. Use `FOS_bignum_copy()`
+ */
+
 #if defined(_MSC_VER)
     #define FOS_THREAD_LOCAL __declspec(thread)
 #else
@@ -42,4 +50,4 @@ bool FOS_bignum_divide(FOS_Bignum *quot, FOS_Bignum *rem, const FOS_Bignum *a, c
 bool FOS_bignum_from_cstr(FOS_Bignum *bn, const char *num);
 bool FOS_bignum_to_cstr(const FOS_Bignum *bn, char *num, size_t buf);
 
-#endif
+#endif // FOS_BIGNUM_H

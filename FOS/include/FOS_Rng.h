@@ -5,6 +5,12 @@
 #include <stddef.h>
 #include <stdbool.h>
 
+/* PCG-based (pseudo-)randomness generator 
+ * with a fairly good distribution properties.
+ *
+ * Not intended for use in cryptography, though.
+ */
+
 #if defined(_MSC_VER)
     #define FOS_THREAD_LOCAL __declspec(thread)
 #else

@@ -3,6 +3,13 @@
 
 #include <stddef.h>
 
+/* A custom allocator interface.
+ * 
+ * By default, gets initialized to
+ * standard memory manipulation
+ * functions.
+ */
+
 typedef struct {
     void *(*alloc)(size_t);
     void  (*free)(void *);

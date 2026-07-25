@@ -4,6 +4,10 @@
 #include <stdint.h>
 #include "FOS_HashMap.h"
 
+/* A generic container for unordered 
+ * unique values.
+ */
+
 typedef struct {
     FOS_HashMap hash_map;
 } FOS_Set;

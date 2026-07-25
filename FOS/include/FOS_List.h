@@ -4,6 +4,14 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+/* Generic singly-linked list with a tail
+ * pointer.
+ *
+ * The only add/remove operation that's not O(1) 
+ * is `FOS_list_pop_back()`, it requires traversing
+ * the whole list, so the complexity is O(n).
+ */
+
 typedef struct FOS_ListNode {
     void *data;
     struct FOS_ListNode *next;
@@ -24,6 +32,7 @@ void FOS_list_free(FOS_List *list);
 bool FOS_list_push_back(FOS_List *list, const void *item);
 bool FOS_list_pop_back(FOS_List *list, void *out);
 const void *FOS_list_at(const FOS_List *list, size_t pos);
+bool FOS_list_remove_at(FOS_List *list, size_t pos);
 void *FOS_list_at_mut(FOS_List *list, size_t pos);
 bool FOS_list_set(FOS_List *list, size_t pos, const void *value);
 const void *FOS_list_front(const FOS_List *list);
@@ -49,4 +58,4 @@ static inline int FOS_list_cmp_int(const void *val1, const void *val2)
         return 0;
 }
 
-#endif
+#endif // FOS_LIST_H

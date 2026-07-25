@@ -24,6 +24,7 @@ FOS_Rng FOS_rng_seed(uint64_t seed, uint64_t stream)
     return rng;
 }
 
+// Recommended for initialization
 FOS_Rng FOS_rng_seed_auto(void)
 {
     FOS_THREAD_LOCAL static uint64_t counter = 0;
@@ -38,6 +39,10 @@ FOS_Rng FOS_rng_seed_auto(void)
     return FOS_rng_seed(seed1, seed2);
 }
 
+/* PCG32 (Permuted Congruential Generator) using an 
+ * LCG state update and an XSH-RR (XorShift High, 
+ * Random Rotation) output function.
+ */
 uint32_t FOS_rng_u32(FOS_Rng *rng)
 {
     uint64_t old_state = rng->state;
@@ -97,11 +102,13 @@ uint32_t FOS_rng_range(uint32_t min, uint32_t max)
     return FOS_rng_range_gen(&default_rng, min, max); 
 }
 
+// Random 64-bit value
 uint64_t FOS_rng_u64(FOS_Rng *rng)
 {
     return ((uint64_t)FOS_rng_u32(rng) << 32) | FOS_rng_u32(rng);
 }
 
+// Random `double` value in [0, 1) range
 double FOS_rng_f64(FOS_Rng *rng)
 {
     uint64_t fst = ((uint64_t)FOS_rng_u32(rng) << 32) | FOS_rng_u32(rng);
@@ -111,7 +118,8 @@ double FOS_rng_f64(FOS_Rng *rng)
 
     return res;
 }
-    
+
+// Shuffles elements in an `int` array
 bool FOS_rng_shuffle_int(int *arr, size_t n, FOS_Rng *rng)
 {
     if (arr == NULL || n == 0 || rng == NULL)
@@ -129,6 +137,7 @@ bool FOS_rng_shuffle_int(int *arr, size_t n, FOS_Rng *rng)
     return true;
 }
 
+// Shuffles elements in any array
 bool FOS_rng_shuffle_generic(void *data, size_t n, size_t elem_size, FOS_Rng *rng)
 {
     if (data == NULL || n == 0 || elem_size == 0 || rng == NULL)

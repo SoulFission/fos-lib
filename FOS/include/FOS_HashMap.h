@@ -5,6 +5,15 @@
 #include <stddef.h>
 #include <stdbool.h>
 
+/* Hash map (key/value associative container). 
+ * Uses `FNV-1a` hashing algorithm; the hash function
+ * is provided at initialization of the structure.
+ *
+ * Default comparison function is also provided, but
+ * both hashing and comparison functions can be replaced
+ * by user-defined ones.
+ */
+
 typedef uint64_t (*FOS_HashFn)(const void *data, size_t size);
 typedef bool (*FOS_KeyEqFn)(const void *a, const void *b, size_t key_size);
 
@@ -48,4 +57,4 @@ bool FOS_hashmap_is_valid(const FOS_HashMap *map);
 bool FOS_hashmap_remove(FOS_HashMap *map, const void *key);
 bool FOS_hashmap_resize(FOS_HashMap *map);
 
-#endif
+#endif // FOS_HASHMAP_H

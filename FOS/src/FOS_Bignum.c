@@ -5,6 +5,7 @@
 #include <string.h>
 #include <ctype.h>
 
+// Initialization of a number struct
 bool FOS_bignum_init(FOS_Bignum *bn)
 {
     if (bn == NULL)
@@ -27,6 +28,8 @@ void FOS_bignum_set_max_digits(size_t max)
     fos_bignum_max_digits = max;
 }
 
+// Releasing the memory and clearing struct fields
+// Must be called when the user is done with the number
 void FOS_bignum_free(FOS_Bignum *bn)
 {
     if (bn == NULL)
@@ -40,6 +43,7 @@ void FOS_bignum_free(FOS_Bignum *bn)
     bn->sign = +1;
 }
 
+// If more room is needed
 bool FOS_bignum_reserve(FOS_Bignum *bn, size_t cap)
 {
     if (bn == NULL)
@@ -76,6 +80,7 @@ bool FOS_bignum_trim(FOS_Bignum *bn)
     return true;
 }
 
+// Deep copy, should be used instead of struct assignment
 bool FOS_bignum_copy(FOS_Bignum *dst, const FOS_Bignum *src)
 {
     if (dst == NULL || dst->digits == NULL || src == NULL || src->digits == NULL)
@@ -316,6 +321,7 @@ bool FOS_bignum_div_u32(FOS_Bignum *bn, uint32_t d, uint32_t *rem_out)
     return true;
 }
 
+// Addition of two numbers, the first argument is allowed to be the same as any next one
 bool FOS_bignum_add(FOS_Bignum *res, const FOS_Bignum *a, const FOS_Bignum *b)
 {
     if (res == NULL || a == NULL || b == NULL)
@@ -577,7 +583,7 @@ bool FOS_bignum_multiply(FOS_Bignum *res, const FOS_Bignum *a, const FOS_Bignum 
     else
         out->sign = -1;
 
-    // optional: normalize zero sign if your trim doesn't guarantee it
+    // optional: normalize zero sign if trim doesn't guarantee it
     if (out->size == 1 && out->digits[0] == 0)
         out->sign = +1;
 
@@ -593,6 +599,7 @@ bool FOS_bignum_multiply(FOS_Bignum *res, const FOS_Bignum *a, const FOS_Bignum 
     return true;
 }
 
+// Probably the hardest function to understand here
 bool FOS_bignum_divide(FOS_Bignum *quot, FOS_Bignum *rem, const FOS_Bignum *a, const FOS_Bignum *b)
 {
     if (quot == NULL || rem == NULL || a == NULL || b == NULL)
@@ -821,6 +828,7 @@ bool FOS_bignum_divide(FOS_Bignum *quot, FOS_Bignum *rem, const FOS_Bignum *a, c
     out_q->size = m + 1;
     out_q->sign = a->sign * b->sign;
 
+    // Knuth's Algorithm D for division
     for (size_t j = m + 1; j-- > 0;)
     {
         uint64_t u2 = u.digits[j + n];
@@ -1020,6 +1028,7 @@ bool FOS_bignum_from_cstr(FOS_Bignum *bn, const char *num)
 
     return true;
 }
+
 bool FOS_bignum_to_cstr(const FOS_Bignum *bn, char *buf, size_t buf_size)
 {
     if (bn == NULL || buf == NULL || buf_size == 0)

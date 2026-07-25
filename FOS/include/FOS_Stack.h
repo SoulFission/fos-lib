@@ -5,6 +5,12 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+/* LIFO (Last In - First Out) data structure.
+ *
+ * Basically, just a wrapper around `FOS_List`
+ * with a separate field for element size.
+ */
+
 typedef struct {
     FOS_List stack;
     size_t elem_size;

@@ -4,6 +4,26 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+/* A dynamic array.
+ *
+ * First, template-like macros to
+ * facilitate generic programming.
+ *
+ * Example usage:
+ *
+ * FOS_VEC_DEFINE(unsigned int, u32)
+ *
+ * at the top level. Then, you could
+ * use `FOS_Vec_u32` as a type, and
+ * the fuction wrappers with `u32`
+ * added after `FOS_vec_` and before
+ * the underscore followed by the name
+ * of the function's purpose. So,
+ * the `new` function becomes
+ *
+ * FOS_Vec_u32 FOS_vec_u32_new(void)
+ */
+
 #define FOS_VEC_DEFINE(TYPE, NAME) \
 typedef FOS_Vec FOS_Vec_##NAME; \
 \
@@ -92,6 +112,25 @@ static inline bool FOS_vec_##NAME##_sort(FOS_Vec_##NAME *v) \
 }
 
 
+/* Vector traversal macros.
+ * Last argument is a user-supplied
+ * name for the iterator.
+ *
+ * Example usage:
+ * 
+ * FOS_VEC_FOR_EACH(int, &vec, p)
+ * {
+ *     printf("%d\n", *p);
+ * }
+ *
+ * Mutability is allowed by default,
+ * but you can use (for instance) 
+ * `const int` instead of plain `int`
+ * as a first argument to achieve
+ * immutable behavior.
+ * 
+ */
+
 #define FOS_VEC_FOR_EACH(type, vec_ptr, it)                          \
     for (type *it = (type *)(vec_ptr)->data,                         \
               *it##_end = (type *)((char *)(vec_ptr)->data +         \
@@ -143,4 +182,4 @@ bool FOS_vec_erase_at(FOS_Vec *vec, size_t i);
 bool FOS_vec_erase_unordered(FOS_Vec *vec, size_t i);
 bool FOS_vec_sort(FOS_Vec *vec, FOS_Compare cmp);
 
-#endif
+#endif // FOS_VEC_H

@@ -5,6 +5,13 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+/* Priority queue implemented as a min-heap using 
+ * a dynamic array. 
+ * 
+ * A comparison function and element size must be
+ * supplied during initialization.
+ */ 
+
 typedef struct {
     FOS_Vec vec;
     int (*cmp_func)(const void *fst, const void *snd);
@@ -19,4 +26,4 @@ bool FOS_heap_is_empty(const FOS_Heap *heap);
 size_t FOS_heap_get_size(const FOS_Heap *heap);
 void FOS_heap_free(FOS_Heap *heap);
 
-#endif
+#endif // FOS_HEAP_H
