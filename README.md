@@ -24,4 +24,15 @@ These modules depend on FOS_List:
 This module depends on FOS_Vec and FOS_Memory:
 - FOS_Heap (a priority queue using a binary heap stored in a dynamic array)
 
+---
+
+Build: the library uses `CMake` now, with `Ninja` being the default build
+tool for `MSYS2` environment (`UCRT64`).
+
+Example:
+`cmake -S . -B build`
+`cmake --build build`
+
+---
+
 Documentation and examples will be added later.
