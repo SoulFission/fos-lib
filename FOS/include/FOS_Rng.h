@@ -29,9 +29,10 @@ uint32_t FOS_rng_u32(FOS_Rng *rng);
 uint32_t FOS_rng_range_gen(FOS_Rng *rng, uint32_t min, uint32_t max);
 uint32_t FOS_rng_range(uint32_t min, uint32_t max);
 uint64_t FOS_rng_u64(FOS_Rng *rng);
+uint64_t FOS_rng_range_gen_u64(FOS_Rng *rng, uint64_t min, uint64_t max);
 double FOS_rng_f64(FOS_Rng *rng);
 bool FOS_rng_shuffle_int(int *arr, size_t n, FOS_Rng *rng);
 bool FOS_rng_shuffle_generic(void *data, size_t n, size_t elem_size, FOS_Rng *rng);
 void *FOS_rng_choose(void *data, size_t n, size_t elem_size, FOS_Rng *rng);
 
-#endif
+#endif // FOS_RNG_H

@@ -22,4 +22,4 @@ size_t FOS_set_get_size(const FOS_Set *set);
 void FOS_set_iterate(const FOS_Set *set, void (*callback)(const void *elem, void *user), void *user);
 void FOS_set_free(FOS_Set *set);
 
-#endif
+#endif // FOS_SET_H

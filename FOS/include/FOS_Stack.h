@@ -24,4 +24,4 @@ bool FOS_stack_is_empty(const FOS_Stack *s);
 size_t FOS_stack_get_size(const FOS_Stack *s);
 void FOS_stack_free(FOS_Stack *s);
 
-#endif
+#endif // FOS_STACK_H

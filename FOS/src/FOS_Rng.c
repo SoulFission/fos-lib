@@ -88,6 +88,38 @@ uint32_t FOS_rng_range_gen(FOS_Rng *rng, uint32_t min, uint32_t max)
     return result;
 }
 
+uint64_t FOS_rng_range_gen_u64(FOS_Rng *rng, uint64_t min, uint64_t max)
+{
+    if (max == UINT64_MAX && min == 0)
+        return FOS_rng_u64(rng);
+
+    if (min > max)
+    {
+        uint64_t temp = min;
+        min = max;
+        max = temp;
+    }
+
+    uint64_t range = max - min + 1;
+
+    if (range == 1)
+        return min;
+
+    if (range == 2)
+        return min + (FOS_rng_u64(rng) & 1);
+
+    uint64_t tail = (UINT64_MAX - range + 1) % range;
+    uint64_t num;
+
+    do {
+        num = FOS_rng_u64(rng);
+    } while (num < tail);
+
+    uint64_t result = min + (num % range);
+
+    return result;
+}
+
 uint32_t FOS_rng_range(uint32_t min, uint32_t max)
 {
     FOS_THREAD_LOCAL static FOS_Rng default_rng;
@@ -150,7 +182,7 @@ bool FOS_rng_shuffle_generic(void *data, size_t n, size_t elem_size, FOS_Rng *rn
 
     for (size_t i = n - 1; i > 0; --i)
     {
-        size_t j = FOS_rng_range_gen(rng, 0, (uint32_t)i);
+        size_t j = FOS_rng_range_gen_u64(rng, 0, i);
 
         memmove(temp, (char *)data + i * elem_size, elem_size);
         memmove((char *)data + i * elem_size, (char *)data + j * elem_size, elem_size);
@@ -167,7 +199,7 @@ void *FOS_rng_choose(void *data, size_t n, size_t elem_size, FOS_Rng *rng)
     if (data == NULL || n == 0 || elem_size == 0 || rng == NULL)
         return NULL;
 
-    size_t i = FOS_rng_range_gen(rng, 0, (uint32_t)(n - 1));
+    size_t i = FOS_rng_range_gen_u64(rng, 0, (n - 1));
 
     return (char *)data + i * elem_size;
 }
