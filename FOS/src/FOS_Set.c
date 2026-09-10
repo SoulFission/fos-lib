@@ -56,7 +56,7 @@ void FOS_set_iterate(const FOS_Set *set, void (*callback)(const void *elem, void
 
     for (size_t i = 0; i < set->hash_map.capacity; ++i)
     {
-        FOS_HashSlot *slot = &set->hash_map.slots[i];
+        const FOS_HashSlot *slot = &set->hash_map.slots[i];
 
         if (slot->state == FOS_OCCUPIED)
             callback(slot->key, user);

@@ -342,7 +342,7 @@ void FOS_list_foreach(const FOS_List *list, void (*func)(const void *item, void 
     if (list == NULL || func == NULL)
         return;
 
-    FOS_ListNode *current = list->head;
+    const FOS_ListNode *current = list->head;
 
     while (current != NULL)
     {

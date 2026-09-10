@@ -7,7 +7,7 @@ uint64_t FOS_fnv1a(const void *data, size_t size)
 {
     const unsigned char *bytes = (const unsigned char *)data;
 
-    uint64_t hash = 1469598103934665603ULL;  // FNV offset basis
+    uint64_t hash = 14695981039346656037ULL;  // FNV offset basis
 
     for (size_t i = 0; i < size; ++i)
     {
@@ -31,16 +31,20 @@ bool FOS_key_eq(const void *a, const void *b, size_t size)
 
 FOS_HashMap FOS_hashmap_new(size_t key_size, size_t value_size, FOS_HashFn hash_fn, FOS_KeyEqFn key_eq_fn)
 {
-    if (key_size == 0 || value_size == 0 || hash_fn == NULL || key_eq_fn == NULL)
-        return (FOS_HashMap) { 0 };
+    if (key_size == 0 || value_size == 0)
+        return (FOS_HashMap){ 0 };
 
     FOS_HashMap hmap = { 0 };
 
-    hmap.slots = FOS_calloc(FOS_HASHMAP_DEFAULT_CAP, sizeof(FOS_HashSlot));
+    hmap.slots =
+        FOS_calloc(
+            FOS_HASHMAP_DEFAULT_CAP,
+            sizeof(FOS_HashSlot)
+        );
 
     if (hmap.slots == NULL)
-        return (FOS_HashMap) { 0 };
-        
+        return (FOS_HashMap){ 0 };
+
     hmap.capacity = FOS_HASHMAP_DEFAULT_CAP;
     hmap.size = 0;
     hmap.tombstones = 0;
@@ -48,8 +52,8 @@ FOS_HashMap FOS_hashmap_new(size_t key_size, size_t value_size, FOS_HashFn hash_
     hmap.key_size = key_size;
     hmap.value_size = value_size;
 
-    hmap.hash = hash_fn;
-    hmap.eq = key_eq_fn;
+    hmap.hash = hash_fn != NULL ? hash_fn : FOS_fnv1a;
+    hmap.eq   = key_eq_fn != NULL ? key_eq_fn : FOS_key_eq;
 
     return hmap;
 }
@@ -176,7 +180,7 @@ bool FOS_hashmap_get(const FOS_HashMap *map, const void *key, void *out_value)
 
     for (size_t probe = 0; probe < map->capacity; ++probe)
     {
-        FOS_HashSlot *slot = &map->slots[index];
+        const FOS_HashSlot *slot = &map->slots[index];
 
         if (slot->state == FOS_EMPTY)
             return false;

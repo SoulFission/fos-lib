@@ -6,9 +6,12 @@ bool FOS_stack_init(FOS_Stack *s, size_t elem_size)
     if (s == NULL || elem_size == 0)
         return false;
 
+    if (!FOS_list_init(&s->stack, elem_size))
+        return false;
+
     s->elem_size = elem_size;
 
-    return FOS_list_init(&s->stack, elem_size);
+    return true;
 }
 
 bool FOS_stack_push(FOS_Stack *s, const void *elem)

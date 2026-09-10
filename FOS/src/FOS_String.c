@@ -6,6 +6,7 @@
 #include <stdint.h>
 
 static bool FOS_char_is_space(int ch);
+static inline size_t FOS_min_size(size_t fst, size_t snd);
 
 FOS_String FOS_str_new(void)
 {
@@ -50,6 +51,7 @@ FOS_String FOS_str_copy(FOS_String src)
         return (FOS_String) { 0 };
 
     memmove(cpy.str, src.str, src.size);
+    cpy.str[src.size] = '\0';
 
     cpy.size = src.size;
     cpy.capacity = src.capacity;
@@ -85,7 +87,7 @@ FOS_String FOS_str_from_cstr(const char *cstr)
 
 char *FOS_str_cstr(FOS_String fos_str)
 {
-    if (fos_str.str == NULL)
+    if (fos_str.str == NULL || fos_str.size == SIZE_MAX)
         return NULL;
 
     char *cstr = FOS_calloc(fos_str.size + 1, 1);
@@ -130,10 +132,10 @@ FOS_Slice FOS_slice_from_cstr(const char *cstr)
 
 FOS_Slice FOS_slice_sub(FOS_Slice fos_slc, size_t pos, size_t len)
 {
-    if (fos_slc.data == NULL || pos >= fos_slc.size) 
+    if (fos_slc.data == NULL || pos > fos_slc.size)
         return (FOS_Slice) { 0 };
 
-    if (pos + len > fos_slc.size)
+    if (len > fos_slc.size - pos)
         len = fos_slc.size - pos;
 
     return (FOS_Slice) { .data = fos_slc.data + pos,
@@ -161,9 +163,12 @@ size_t FOS_slice_find_subslice(FOS_Slice haystack, FOS_Slice needle)
     if (haystack.size < needle.size)
         return SIZE_MAX;
 
+    if (needle.size > SIZE_MAX / sizeof(size_t))
+        return SIZE_MAX;
+
     size_t *lps = FOS_alloc(needle.size * sizeof(size_t));
 
-    if (!lps)
+    if (lps == NULL)
         return SIZE_MAX; // allocation failed
 
     // Build LPS (Longest Prefix Suffix) table
@@ -209,6 +214,9 @@ size_t FOS_str_find_substr(FOS_String haystack, FOS_String needle)
         return SIZE_MAX;
 
     if (haystack.size < needle.size)
+        return SIZE_MAX;
+
+    if (needle.size > SIZE_MAX / sizeof(size_t))
         return SIZE_MAX;
 
     size_t *lps = FOS_alloc(needle.size * sizeof(size_t));
@@ -342,13 +350,13 @@ bool FOS_str_reserve(FOS_String *fos_str_ptr, size_t to_reserve)
     if (fos_str_ptr == NULL || fos_str_ptr->str == NULL || to_reserve == 0)
         return false;
 
+    if (fos_str_ptr->size == SIZE_MAX)
+        return false;
+
     if (fos_str_ptr->capacity >= to_reserve)
         return true;
 
     if (fos_str_ptr->size + 1 > to_reserve)
-        return false;
-
-    if (fos_str_ptr->size == SIZE_MAX)
         return false;
 
     char *ptr = FOS_realloc(fos_str_ptr->str, to_reserve);
@@ -367,8 +375,15 @@ FOS_String FOS_str_append_slice(FOS_String fos_str, FOS_Slice tail)
     if (fos_str.str == NULL || tail.data == NULL)
         return (FOS_String) { 0 };
 
-    FOS_String new_str = { 0 };
+    if (tail.size > SIZE_MAX - fos_str.size)
+        return (FOS_String) { 0 };
+
     size_t new_size = fos_str.size + tail.size;
+
+    if (new_size == SIZE_MAX)
+        return (FOS_String) { 0 };
+
+    FOS_String new_str = { 0 };
 
     new_str.str = FOS_calloc(new_size + 1, 1);
 
@@ -387,10 +402,7 @@ FOS_String FOS_str_append_slice(FOS_String fos_str, FOS_Slice tail)
 
 FOS_String FOS_str_join(const FOS_Slice parts[], size_t count, FOS_Slice sep)
 {
-    if (count == 0)
-        return (FOS_String) { 0 };
-
-    if (sep.data == NULL)
+    if (count == 0 || parts == NULL || sep.data == NULL)
         return (FOS_String) { 0 };
 
     size_t sep_len = sep.size;
@@ -400,19 +412,36 @@ FOS_String FOS_str_join(const FOS_Slice parts[], size_t count, FOS_Slice sep)
     {
         if (parts[i].data == NULL)
             return (FOS_String) { 0 };
+
+        if (parts[i].size > SIZE_MAX - total)
+            return (FOS_String) { 0 };
         
         total += parts[i].size;
     }
 
-    if (total + sep_len * (count - 1) < total)
-        return (FOS_String) { 0 }; // overflow
+    size_t separator_count = count - 1;
 
-    total += sep_len * (count - 1);
+    if (sep_len != 0 && separator_count > SIZE_MAX / sep_len)
+        return (FOS_String) { 0 };
+
+    size_t separator_total = sep_len * separator_count;
+
+    if (separator_total > SIZE_MAX - total)
+        return (FOS_String) { 0 };
+
+    total += separator_total;
 
     FOS_String new_str = FOS_str_new();
 
-    if (!FOS_str_reserve(&new_str, total + 1))
+    if (total == SIZE_MAX)
         return (FOS_String) { 0 };
+
+    if (!FOS_str_reserve(&new_str, total + 1))
+    {
+        FOS_str_free(&new_str);
+
+        return (FOS_String) { 0 };
+    }
 
     size_t pos = 0;
 
@@ -454,9 +483,13 @@ size_t FOS_slice_println(FOS_Slice fos_slc)
 {
     size_t written = FOS_slice_print(fos_slc);
 
-    putchar('\n');
+    if (written == SIZE_MAX)
+        return SIZE_MAX;
 
-    return written;
+    if (putchar('\n') == EOF)
+        return SIZE_MAX;
+
+    return written + 1;
 }
 
 size_t FOS_str_print(FOS_String fos_str)
@@ -476,12 +509,16 @@ size_t FOS_str_print(FOS_String fos_str)
 }
 
 size_t FOS_str_println(FOS_String fos_str)
-{    
+{
     size_t written = FOS_str_print(fos_str);
 
-    putchar('\n');
+    if (written == SIZE_MAX)
+        return SIZE_MAX;
 
-    return written;
+    if (putchar('\n') == EOF)
+        return SIZE_MAX;
+
+    return written + 1;
 }
 
 size_t FOS_slice_fprint(FOS_Slice fos_slc, FILE *stream)
@@ -504,9 +541,13 @@ size_t FOS_slice_fprintln(FOS_Slice fos_slc, FILE *stream)
 {
     size_t written = FOS_slice_fprint(fos_slc, stream);
 
-    fputc('\n', stream);
+    if (written == SIZE_MAX)
+        return SIZE_MAX;
 
-    return written;
+    if (fputc('\n', stream) == EOF)
+        return SIZE_MAX;
+
+    return written + 1;
 }
 
 size_t FOS_str_fprint(FOS_String fos_str, FILE *stream)
@@ -526,12 +567,16 @@ size_t FOS_str_fprint(FOS_String fos_str, FILE *stream)
 }
 
 size_t FOS_str_fprintln(FOS_String fos_str, FILE *stream)
-{    
+{
     size_t written = FOS_str_fprint(fos_str, stream);
 
-    fputc('\n', stream);
+    if (written == SIZE_MAX)
+        return SIZE_MAX;
 
-    return written;
+    if (fputc('\n', stream) == EOF)
+        return SIZE_MAX;
+
+    return written + 1;
 }
 
 FOS_String FOS_str_concat(FOS_String s1, FOS_String s2)
@@ -539,7 +584,13 @@ FOS_String FOS_str_concat(FOS_String s1, FOS_String s2)
     if (s1.str == NULL || s2.str == NULL)
         return (FOS_String) { 0 };
 
+    if (s2.size > SIZE_MAX - s1.size)
+        return (FOS_String) { 0 };
+
     size_t new_size = s1.size + s2.size;
+
+    if (new_size == SIZE_MAX)
+        return (FOS_String) { 0 };
 
     FOS_String new_str = { 0 };
 
@@ -568,10 +619,18 @@ FOS_String FOS_str_replace(FOS_String src, FOS_Slice needle, FOS_Slice replaceme
     if (index == SIZE_MAX)
         return FOS_str_copy(src);
 
-    size_t new_size = src.size - needle.size + replacement.size;
+    size_t base_size = src.size - needle.size;
+
+    if (replacement.size > SIZE_MAX - base_size)
+        return (FOS_String) { 0 };
+
+    size_t new_size = base_size + replacement.size;
+
+    if (new_size == SIZE_MAX)
+        return (FOS_String) { 0 };
 
     FOS_String new_str = { 0 };
-    
+
     new_str.str = FOS_calloc(new_size + 1, 1);
 
     if (new_str.str == NULL)
@@ -598,6 +657,14 @@ FOS_SliceArray FOS_slice_split_ch(FOS_Slice src, int ch)
     for (size_t i = 0; i < src.size; ++i)
         if (src.data[i] == ch)
             ++count;
+
+    if (count == SIZE_MAX)
+        return (FOS_SliceArray) { 0 };
+
+    size_t slice_count = count + 1;
+
+    if (slice_count > SIZE_MAX / sizeof(FOS_Slice))
+        return (FOS_SliceArray) { 0 };
 
     FOS_SliceArray slc_arr = { 0 };
 
@@ -642,19 +709,19 @@ FOS_String FOS_str_reverse(FOS_String fos_str)
 
     FOS_String new_str = { 0 };
 
-    new_str.str = FOS_calloc(fos_str.size + 1, 1);
+    if (fos_str.size == SIZE_MAX)
+        return (FOS_String) { 0 };
+
+    new_str.capacity = fos_str.size + 1;
+    new_str.str = FOS_calloc(new_str.capacity, 1);
 
     if (new_str.str == NULL)
         return (FOS_String) { 0 };
-    
-    size_t i, j;
 
-    for (i = fos_str.size - 1, j = 0; i > 0; --i, ++j)
-        new_str.str[j] = fos_str.str[i];
-    new_str.str[j] = fos_str.str[i];
+    for (size_t i = 0; i < fos_str.size; ++i)
+        new_str.str[i] = fos_str.str[fos_str.size - 1 - i];
 
     new_str.size = fos_str.size;
-    new_str.capacity = fos_str.capacity;
 
     return new_str;
 }
@@ -687,11 +754,16 @@ FOS_String FOS_str_trim(FOS_String fos_str)
     if (spaces > 0)
         new_str.size -= spaces;
 
+    new_str.str[new_str.size] = '\0';
+
     return new_str;
 }
 
 bool FOS_slice_starts_with(FOS_Slice s, FOS_Slice prefix)
 {
+    if (s.data == NULL || prefix.data == NULL)
+        return false;
+
     if (prefix.size > s.size)
         return false;
 
@@ -700,14 +772,31 @@ bool FOS_slice_starts_with(FOS_Slice s, FOS_Slice prefix)
 
 bool FOS_slice_ends_with(FOS_Slice s, FOS_Slice suffix)
 {
+    if (s.data == NULL || suffix.data == NULL)
+        return false;
+
     if (suffix.size > s.size)
         return false;
 
     return memcmp(s.data + (s.size - suffix.size), suffix.data, suffix.size) == 0;
 }
 
+bool FOS_slice_eq(FOS_Slice a, FOS_Slice b)
+{
+    if (a.data == NULL || b.data == NULL)
+        return false;
+
+    if (a.size != b.size)
+        return false;
+
+    return memcmp(a.data, b.data, a.size) == 0;
+}
+
 FOS_Slice FOS_slice_trim(FOS_Slice s)
 {
+    if (s.data == NULL)
+        return (FOS_Slice) { 0 };
+
     size_t start = 0;
     size_t end = s.size;
 
@@ -721,14 +810,6 @@ FOS_Slice FOS_slice_trim(FOS_Slice s)
         .data = s.data + start,
         .size = end - start
     };
-}
-
-bool FOS_slice_eq(FOS_Slice a, FOS_Slice b)
-{
-    if (a.size != b.size)
-        return false;
-
-    return memcmp(a.data, b.data, a.size) == 0;
 }
 
 static bool FOS_char_is_space(int ch)

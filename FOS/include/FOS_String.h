@@ -6,7 +6,7 @@
 #include <stdbool.h>
 
 /* Strings with owned data,
- * non-owning slices.
+ * non-owning slices. 
  * 
  * No Unicode support yet.
  */
@@ -42,7 +42,6 @@ size_t FOS_slice_find_ch(FOS_Slice fos_slc, int ch);
 size_t FOS_slice_find_subslice(FOS_Slice haystack, FOS_Slice needle);
 size_t FOS_str_find_substr(FOS_String haystack, FOS_String needle);
 int FOS_slice_cmp(FOS_Slice a, FOS_Slice b);
-static inline size_t FOS_min_size(size_t fst, size_t snd);
 bool FOS_slice_valid(FOS_Slice fos_slc);
 bool FOS_string_valid(FOS_String fos_str);
 FOS_String FOS_slice_to_str(FOS_Slice fos_slc);

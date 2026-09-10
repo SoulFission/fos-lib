@@ -8,6 +8,8 @@ bool FOS_heap_init(FOS_Heap *heap, int (*cmp)(const void *fst, const void *snd),
     if (heap == NULL || cmp == NULL || elem_size == 0)
         return false;
 
+    memset(heap, 0, sizeof(*heap));
+
     heap->vec = FOS_vec_new(elem_size);
 
     if (heap->vec.data == NULL)
@@ -20,6 +22,7 @@ bool FOS_heap_init(FOS_Heap *heap, int (*cmp)(const void *fst, const void *snd),
     if (heap->swap_buf == NULL)
     {
         FOS_vec_free(&heap->vec);
+        memset(heap, 0, sizeof(*heap));
         return false;
     }
 
@@ -122,8 +125,14 @@ static bool FOS_heap_sift_down(FOS_Heap *heap, size_t index)
     bool is_left = false;
     bool is_right = false;
 
-    while ((is_left = FOS_heap_left_exists(heap, index)) || (is_right = FOS_heap_right_exists(heap, index)))
+    while (true)
     {
+        is_left = FOS_heap_left_exists(heap, index);
+        is_right = FOS_heap_right_exists(heap, index);
+
+        if (!is_left && !is_right)
+            break;
+
         char *curr = (char *)heap->vec.data + index * heap->vec.elem_size;
         char *left = NULL;
         char *right = NULL;

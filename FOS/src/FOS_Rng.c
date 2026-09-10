@@ -7,7 +7,7 @@
 
 FOS_Rng FOS_rng_default(void)
 {
-    return (FOS_Rng) { .state = 359ULL, .inc = 953ULL };
+    return (FOS_Rng) { .state = 0x853c49e6748fea9bULL, .inc = 0xda3e39cb94b95bdbULL };
 }
 
 FOS_Rng FOS_rng_seed(uint64_t seed, uint64_t stream)
@@ -57,15 +57,15 @@ uint32_t FOS_rng_u32(FOS_Rng *rng)
 
 uint32_t FOS_rng_range_gen(FOS_Rng *rng, uint32_t min, uint32_t max)
 {
-    if (max == UINT32_MAX && min == 0)
-        return FOS_rng_u32(rng);
-
     if (min > max)
     {
         uint32_t temp = min;
         min = max;
         max = temp;
     }
+
+    if (max == UINT32_MAX && min == 0)
+        return FOS_rng_u32(rng);
 
     uint32_t range = max - min + 1;
 
@@ -90,15 +90,15 @@ uint32_t FOS_rng_range_gen(FOS_Rng *rng, uint32_t min, uint32_t max)
 
 uint64_t FOS_rng_range_gen_u64(FOS_Rng *rng, uint64_t min, uint64_t max)
 {
-    if (max == UINT64_MAX && min == 0)
-        return FOS_rng_u64(rng);
-
     if (min > max)
     {
         uint64_t temp = min;
         min = max;
         max = temp;
     }
+
+    if (max == UINT64_MAX && min == 0)
+        return FOS_rng_u64(rng);
 
     uint64_t range = max - min + 1;
 
@@ -154,7 +154,7 @@ double FOS_rng_f64(FOS_Rng *rng)
 // Shuffles elements in an `int` array
 bool FOS_rng_shuffle_int(int *arr, size_t n, FOS_Rng *rng)
 {
-    if (arr == NULL || n == 0 || rng == NULL)
+    if (arr == NULL || n == 0 || rng == NULL || n > UINT32_MAX)
         return false;
 
     for (size_t i = n - 1; i > 0; --i)

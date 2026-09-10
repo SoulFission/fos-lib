@@ -98,18 +98,10 @@ static inline bool FOS_vec_##NAME##_erase_unordered(FOS_Vec_##NAME *vec, size_t 
 { \
     return FOS_vec_erase_unordered(vec, i); \
 } \
-int FOS_vec_##NAME##_compare(const void *fst, const void *snd) \
-{\
-    if (*(TYPE *)fst < *(TYPE *)snd) \
-        return -1; \
-    if (*(TYPE *)fst > *(TYPE *)snd) \
-        return 1; \
-    return 0;\
-}\
-static inline bool FOS_vec_##NAME##_sort(FOS_Vec_##NAME *v) \
-{\
-    return FOS_vec_sort(v, FOS_vec_##NAME##_compare);\
-}
+static inline bool FOS_vec_##NAME##_sort(FOS_Vec_##NAME *vec, FOS_Compare cmp) \
+{ \
+    return FOS_vec_sort(vec, cmp); \
+} 
 
 
 /* Vector traversal macros.
@@ -138,13 +130,13 @@ static inline bool FOS_vec_##NAME##_sort(FOS_Vec_##NAME *v) \
          it < it##_end;                                              \
          ++it)
 
-#define FOS_VEC_FOR_EACH_REV(type, vec_ptr, it)                      \
-    if ((vec_ptr)->size > 0)                                         \
-        for (type *it = (type *)((char *)(vec_ptr)->data +               \
-                                 ((vec_ptr)->size - 1) * (vec_ptr)->elem_size), \
-                  *it##_begin = (type *)(vec_ptr)->data;                 \
-            it >= it##_begin;                                           \
-            --it)
+#define FOS_VEC_FOR_EACH_REV(type, vec_ptr, it)                           \
+    for (size_t it##_i = (vec_ptr)->size; it##_i-- > 0;)                  \
+        for (type *it = (type *)((char *)(vec_ptr)->data +                \
+                                it##_i * (vec_ptr)->elem_size),           \
+             *it##_once = it;                                            \
+             it##_once != NULL;                                          \
+             it##_once = NULL)
 
 #define FOS_VEC_FOR_EACH_RAW(vec_ptr, it)                            \
     for (char *it = (char *)(vec_ptr)->data,                         \
