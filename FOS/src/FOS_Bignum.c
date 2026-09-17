@@ -14,8 +14,10 @@ bool FOS_bignum_init(FOS_Bignum *bn)
     bn->digits = NULL;
     bn->capacity = 0;
 
-    FOS_bignum_reserve(bn, 1);
+    if(!FOS_bignum_reserve(bn, 1))
+        return false;
 
+    bn->digits[0] = 0;
     bn->size = 1;
     bn->sign = +1;
 
@@ -24,7 +26,7 @@ bool FOS_bignum_init(FOS_Bignum *bn)
 
 void FOS_bignum_set_max_digits(size_t max)
 {
-    // 0 means "no limit"
+    // max count of decimal digits, 0 means "no limit"
     fos_bignum_max_digits = max;
 }
 
@@ -49,14 +51,25 @@ bool FOS_bignum_reserve(FOS_Bignum *bn, size_t cap)
     if (bn == NULL)
         return false;
 
-    if (fos_bignum_max_digits != 0 && cap > fos_bignum_max_digits)
-        return false;
+    if (fos_bignum_max_digits != 0)
+    {
+        size_t max_limbs = fos_bignum_max_digits / 9;
+
+        if (fos_bignum_max_digits % 9 != 0)
+            ++max_limbs;
+
+        if (cap > max_limbs)
+            return false;
+    }
 
     if (cap <= bn->capacity)
         return true;
 
+    if (cap > SIZE_MAX / sizeof(uint32_t))
+        return false;
+
     uint32_t *tmp = FOS_realloc(bn->digits, cap * sizeof(uint32_t));
-    
+
     if (tmp == NULL)
         return false;
 
@@ -982,51 +995,86 @@ cleanup:
 
 bool FOS_bignum_from_cstr(FOS_Bignum *bn, const char *num)
 {
-    if (bn == NULL || num == NULL)
+    if (bn == NULL || num == NULL || num[0] == '\0')
         return false;
 
     size_t len = strlen(num);
 
-    if (fos_bignum_max_digits != 0 &&
-        len > fos_bignum_max_digits * 9)
-        return false;
-
-    if (!FOS_bignum_reserve(bn, 8))
-        return false;
-
-    bn->size = 1;
-    bn->digits[0] = 0;
-    bn->sign = +1;
-
     int sign = +1;
     size_t start = 0;
 
-    if (num[0] == '-') 
-    { 
-        sign = -1; 
-        start = 1; 
+    if (num[0] == '-')
+    {
+        sign = -1;
+        start = 1;
     }
-    else if (num[0] == '+') 
-        start = 1; 
+    else if (num[0] == '+')
+    {
+        start = 1;
+    }
+
+    if (start == len)
+        return false;
+
+    /* Skip leading zeroes for the digit-limit check. */
+    size_t first_nonzero = start;
+
+    while (first_nonzero < len && num[first_nonzero] == '0')
+        ++first_nonzero;
+
+    size_t digit_count = len - first_nonzero;
+
+    if (fos_bignum_max_digits != 0 &&
+        digit_count > fos_bignum_max_digits)
+        return false;
+
+    /*
+     * A string consisting entirely of zeroes represents zero.
+     */
+    if (first_nonzero == len)
+    {
+        if (bn->capacity < 1 &&
+            !FOS_bignum_reserve(bn, 1))
+            return false;
+
+        bn->digits[0] = 0;
+        bn->size = 1;
+        bn->sign = +1;
+
+        return true;
+    }
+
+    FOS_Bignum temp;
+
+    if (!FOS_bignum_init(&temp))
+        return false;
 
     for (size_t i = start; i < len; ++i)
     {
         if (!isdigit((unsigned char)num[i]))
+        {
+            FOS_bignum_free(&temp);
             return false;
+        }
 
         uint32_t digit = (uint32_t)(num[i] - '0');
-        
-        if (!FOS_bignum_mul_u32(bn, 10))
-            return false;
 
-        if (!FOS_bignum_add_u32(bn, digit))
+        if (!FOS_bignum_mul_u32(&temp, 10) ||
+            !FOS_bignum_add_u32(&temp, digit))
+        {
+            FOS_bignum_free(&temp);
             return false;
+        }
     }
 
-    bn->sign = sign;
-    FOS_bignum_trim(bn);
+    temp.sign = sign;
+    FOS_bignum_trim(&temp);
 
-    return true;
+    bool ok = FOS_bignum_copy(bn, &temp);
+
+    FOS_bignum_free(&temp);
+
+    return ok;
 }
 
 bool FOS_bignum_to_cstr(const FOS_Bignum *bn, char *buf, size_t buf_size)

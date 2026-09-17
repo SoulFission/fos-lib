@@ -35,4 +35,4 @@ Example:
 
 ---
 
-Documentation and examples will be added later.
+Documentation and examples are included in their respective folders.

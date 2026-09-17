@@ -62,4 +62,6 @@ void FOS_stack_free(FOS_Stack *s)
         return;
 
     FOS_list_free(&s->stack);
+
+    s->elem_size = 0;
 }

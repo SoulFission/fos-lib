@@ -1,0 +1,1502 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>@font-face {
+  font-family: octicons-link;
+  src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme="auto"],
+  [data-theme="dark"] {
+    /*dark*/
+    --color-prettylights-syntax-comment: #8b949e;
+    --color-prettylights-syntax-constant: #79c0ff;
+    --color-prettylights-syntax-entity: #d2a8ff;
+    --color-prettylights-syntax-storage-modifier-import: #c9d1d9;
+    --color-prettylights-syntax-entity-tag: #7ee787;
+    --color-prettylights-syntax-keyword: #ff7b72;
+    --color-prettylights-syntax-string: #a5d6ff;
+    --color-prettylights-syntax-variable: #ffa657;
+    --color-prettylights-syntax-brackethighlighter-unmatched: #f85149;
+    --color-prettylights-syntax-invalid-illegal-text: #f0f6fc;
+    --color-prettylights-syntax-invalid-illegal-bg: #8e1519;
+    --color-prettylights-syntax-carriage-return-text: #f0f6fc;
+    --color-prettylights-syntax-carriage-return-bg: #b62324;
+    --color-prettylights-syntax-string-regexp: #7ee787;
+    --color-prettylights-syntax-markup-list: #f2cc60;
+    --color-prettylights-syntax-markup-heading: #1f6feb;
+    --color-prettylights-syntax-markup-italic: #c9d1d9;
+    --color-prettylights-syntax-markup-bold: #c9d1d9;
+    --color-prettylights-syntax-markup-deleted-text: #ffdcd7;
+    --color-prettylights-syntax-markup-deleted-bg: #67060c;
+    --color-prettylights-syntax-markup-inserted-text: #aff5b4;
+    --color-prettylights-syntax-markup-inserted-bg: #033a16;
+    --color-prettylights-syntax-markup-changed-text: #ffdfb6;
+    --color-prettylights-syntax-markup-changed-bg: #5a1e02;
+    --color-prettylights-syntax-markup-ignored-text: #c9d1d9;
+    --color-prettylights-syntax-markup-ignored-bg: #1158c7;
+    --color-prettylights-syntax-meta-diff-range: #d2a8ff;
+    --color-prettylights-syntax-brackethighlighter-angle: #8b949e;
+    --color-prettylights-syntax-sublimelinter-gutter-mark: #484f58;
+    --color-prettylights-syntax-constant-other-reference-link: #a5d6ff;
+    --color-fg-default: #e6edf3;
+    --color-fg-muted: #848d97;
+    --color-fg-subtle: #6e7681;
+    --color-canvas-default: #0d1117;
+    --color-canvas-subtle: #161b22;
+    --color-border-default: #30363d;
+    --color-border-muted: #21262d;
+    --color-neutral-muted: rgba(110,118,129,0.4);
+    --color-accent-fg: #2f81f7;
+    --color-accent-emphasis: #1f6feb;
+    --color-success-fg: #3fb950;
+    --color-success-emphasis: #238636;
+    --color-attention-fg: #d29922;
+    --color-attention-emphasis: #9e6a03;
+    --color-attention-subtle: rgba(187,128,9,0.15);
+    --color-danger-fg: #f85149;
+    --color-danger-emphasis: #da3633;
+    --color-done-fg: #a371f7;
+    --color-done-emphasis: #8957e5;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  [data-theme="auto"],
+  [data-theme="light"] {
+    /*light*/
+    --color-prettylights-syntax-comment: #57606a;
+    --color-prettylights-syntax-constant: #0550ae;
+    --color-prettylights-syntax-entity: #6639ba;
+    --color-prettylights-syntax-storage-modifier-import: #24292f;
+    --color-prettylights-syntax-entity-tag: #116329;
+    --color-prettylights-syntax-keyword: #cf222e;
+    --color-prettylights-syntax-string: #0a3069;
+    --color-prettylights-syntax-variable: #953800;
+    --color-prettylights-syntax-brackethighlighter-unmatched: #82071e;
+    --color-prettylights-syntax-invalid-illegal-text: #f6f8fa;
+    --color-prettylights-syntax-invalid-illegal-bg: #82071e;
+    --color-prettylights-syntax-carriage-return-text: #f6f8fa;
+    --color-prettylights-syntax-carriage-return-bg: #cf222e;
+    --color-prettylights-syntax-string-regexp: #116329;
+    --color-prettylights-syntax-markup-list: #3b2300;
+    --color-prettylights-syntax-markup-heading: #0550ae;
+    --color-prettylights-syntax-markup-italic: #24292f;
+    --color-prettylights-syntax-markup-bold: #24292f;
+    --color-prettylights-syntax-markup-deleted-text: #82071e;
+    --color-prettylights-syntax-markup-deleted-bg: #ffebe9;
+    --color-prettylights-syntax-markup-inserted-text: #116329;
+    --color-prettylights-syntax-markup-inserted-bg: #dafbe1;
+    --color-prettylights-syntax-markup-changed-text: #953800;
+    --color-prettylights-syntax-markup-changed-bg: #ffd8b5;
+    --color-prettylights-syntax-markup-ignored-text: #eaeef2;
+    --color-prettylights-syntax-markup-ignored-bg: #0550ae;
+    --color-prettylights-syntax-meta-diff-range: #8250df;
+    --color-prettylights-syntax-brackethighlighter-angle: #57606a;
+    --color-prettylights-syntax-sublimelinter-gutter-mark: #8c959f;
+    --color-prettylights-syntax-constant-other-reference-link: #0a3069;
+    --color-fg-default: #1F2328;
+    --color-fg-muted: #656d76;
+    --color-fg-subtle: #6e7781;
+    --color-canvas-default: #ffffff;
+    --color-canvas-subtle: #f6f8fa;
+    --color-border-default: #d0d7de;
+    --color-border-muted: hsla(210,18%,87%,1);
+    --color-neutral-muted: rgba(175,184,193,0.2);
+    --color-accent-fg: #0969da;
+    --color-accent-emphasis: #0969da;
+    --color-success-fg: #1a7f37;
+    --color-success-emphasis: #1f883d;
+    --color-attention-fg: #9a6700;
+    --color-attention-emphasis: #9a6700;
+    --color-attention-subtle: #fff8c5;
+    --color-danger-fg: #d1242f;
+    --color-danger-emphasis: #cf222e;
+    --color-done-fg: #8250df;
+    --color-done-emphasis: #8250df;
+  }
+}
+
+body {
+    max-width: 980px;
+    margin: 16px auto;
+    background-color: var(--color-canvas-default);
+}
+
+.markdown-body .octicon-link:before {
+  color: var(--color-fg-default);
+  font: normal normal normal 16px/1 octicons-link;
+  display: inline-block;
+  text-decoration: none;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  content: '\f05c';
+  vertical-align: middle;
+}
+
+.markdown-body {
+  padding: 45px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  margin: 0;
+  color: var(--color-fg-default);
+  background-color: var(--color-canvas-default);
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  font-size: 16px;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.markdown-body .octicon {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: text-bottom;
+}
+
+.markdown-body .markdown-heading:hover .anchor {
+  opacity: 1;
+}
+
+.markdown-body .markdown-heading:hover .anchor .octicon-link::before {
+  width: 16px;
+  height: 16px;
+  content: ' ';
+  display: inline-block;
+  background-color: currentColor;
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' version='1.1' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg>");
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' version='1.1' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg>");
+}
+
+.markdown-body details,
+.markdown-body figcaption,
+.markdown-body figure {
+  display: block;
+}
+
+.markdown-body summary {
+  display: list-item;
+}
+
+.markdown-body [hidden] {
+  display: none !important;
+}
+
+.markdown-body a {
+  background-color: transparent;
+  color: var(--color-accent-fg);
+  text-decoration: none;
+}
+
+.markdown-body abbr[title] {
+  border-bottom: none;
+  -webkit-text-decoration: underline dotted;
+  text-decoration: underline dotted;
+}
+
+.markdown-body b,
+.markdown-body strong {
+  font-weight: var(--base-text-weight-semibold, 600);
+}
+
+.markdown-body dfn {
+  font-style: italic;
+}
+
+.markdown-body h1 {
+  margin: .67em 0;
+  font-weight: var(--base-text-weight-semibold, 600);
+  padding-bottom: .3em;
+  font-size: 2em;
+  border-bottom: 1px solid var(--color-border-muted);
+}
+
+.markdown-body mark {
+  background-color: var(--color-attention-subtle);
+  color: var(--color-fg-default);
+}
+
+.markdown-body small {
+  font-size: 90%;
+}
+
+.markdown-body sub,
+.markdown-body sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+.markdown-body sub {
+  bottom: -0.25em;
+}
+
+.markdown-body sup {
+  top: -0.5em;
+}
+
+.markdown-body img {
+  border-style: none;
+  max-width: 100%;
+  box-sizing: content-box;
+  background-color: var(--color-canvas-default);
+}
+
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre,
+.markdown-body samp {
+  font-family: monospace;
+  font-size: 1em;
+}
+
+.markdown-body figure {
+  margin: 1em 40px;
+}
+
+.markdown-body hr {
+  box-sizing: content-box;
+  overflow: hidden;
+  background: transparent;
+  border-bottom: 1px solid var(--color-border-muted);
+  height: .25em;
+  padding: 0;
+  margin: 24px 0;
+  background-color: var(--color-border-default);
+  border: 0;
+}
+
+.markdown-body input {
+  font: inherit;
+  margin: 0;
+  overflow: visible;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.markdown-body [type=button],
+.markdown-body [type=reset],
+.markdown-body [type=submit] {
+  -webkit-appearance: button;
+  appearance: button;
+}
+
+.markdown-body [type=checkbox],
+.markdown-body [type=radio] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.markdown-body [type=number]::-webkit-inner-spin-button,
+.markdown-body [type=number]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+.markdown-body [type=search]::-webkit-search-cancel-button,
+.markdown-body [type=search]::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.markdown-body ::-webkit-input-placeholder {
+  color: inherit;
+  opacity: .54;
+}
+
+.markdown-body ::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  appearance: button;
+  font: inherit;
+}
+
+.markdown-body a:hover {
+  text-decoration: underline;
+}
+
+.markdown-body ::placeholder {
+  color: var(--color-fg-subtle);
+  opacity: 1;
+}
+
+.markdown-body hr::before {
+  display: table;
+  content: "";
+}
+
+.markdown-body hr::after {
+  display: table;
+  clear: both;
+  content: "";
+}
+
+.markdown-body table {
+  border-spacing: 0;
+  border-collapse: collapse;
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow: auto;
+}
+
+.markdown-body td,
+.markdown-body th {
+  padding: 0;
+}
+
+.markdown-body details summary {
+  cursor: pointer;
+}
+
+.markdown-body details:not([open])>*:not(summary) {
+  display: none !important;
+}
+
+.markdown-body a:focus,
+.markdown-body [role=button]:focus,
+.markdown-body input[type=radio]:focus,
+.markdown-body input[type=checkbox]:focus {
+  outline: 2px solid var(--color-accent-fg);
+  outline-offset: -2px;
+  box-shadow: none;
+}
+
+.markdown-body a:focus:not(:focus-visible),
+.markdown-body [role=button]:focus:not(:focus-visible),
+.markdown-body input[type=radio]:focus:not(:focus-visible),
+.markdown-body input[type=checkbox]:focus:not(:focus-visible) {
+  outline: solid 1px transparent;
+}
+
+.markdown-body a:focus-visible,
+.markdown-body [role=button]:focus-visible,
+.markdown-body input[type=radio]:focus-visible,
+.markdown-body input[type=checkbox]:focus-visible {
+  outline: 2px solid var(--color-accent-fg);
+  outline-offset: -2px;
+  box-shadow: none;
+}
+
+.markdown-body a:not([class]):focus,
+.markdown-body a:not([class]):focus-visible,
+.markdown-body input[type=radio]:focus,
+.markdown-body input[type=radio]:focus-visible,
+.markdown-body input[type=checkbox]:focus,
+.markdown-body input[type=checkbox]:focus-visible {
+  outline-offset: 0;
+}
+
+.markdown-body kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;
+  line-height: 10px;
+  color: var(--color-fg-default);
+  vertical-align: middle;
+  background-color: var(--color-canvas-subtle);
+  border: solid 1px var(--color-neutral-muted);
+  border-bottom-color: var(--color-neutral-muted);
+  border-radius: 6px;
+  box-shadow: inset 0 -1px 0 var(--color-neutral-muted);
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: var(--base-text-weight-semibold, 600);
+  line-height: 1.25;
+}
+
+.markdown-body h2 {
+  font-weight: var(--base-text-weight-semibold, 600);
+  padding-bottom: .3em;
+  font-size: 1.5em;
+  border-bottom: 1px solid var(--color-border-muted);
+}
+
+.markdown-body h3 {
+  font-weight: var(--base-text-weight-semibold, 600);
+  font-size: 1.25em;
+}
+
+.markdown-body h4 {
+  font-weight: var(--base-text-weight-semibold, 600);
+  font-size: 1em;
+}
+
+.markdown-body h5 {
+  font-weight: var(--base-text-weight-semibold, 600);
+  font-size: .875em;
+}
+
+.markdown-body h6 {
+  font-weight: var(--base-text-weight-semibold, 600);
+  font-size: .85em;
+  color: var(--color-fg-muted);
+}
+
+.markdown-body p {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.markdown-body blockquote {
+  margin: 0;
+  padding: 0 1em;
+  color: var(--color-fg-muted);
+  border-left: .25em solid var(--color-border-default);
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 2em;
+}
+
+.markdown-body ol ol,
+.markdown-body ul ol {
+  list-style-type: lower-roman;
+}
+
+.markdown-body ul ul ol,
+.markdown-body ul ol ol,
+.markdown-body ol ul ol,
+.markdown-body ol ol ol {
+  list-style-type: lower-alpha;
+}
+
+.markdown-body dd {
+  margin-left: 0;
+}
+
+.markdown-body tt,
+.markdown-body code,
+.markdown-body samp {
+  font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;
+  font-size: 12px;
+}
+
+.markdown-body pre {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;
+  font-size: 12px;
+  word-wrap: normal;
+}
+
+.markdown-body .octicon {
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-body input::-webkit-outer-spin-button,
+.markdown-body input::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.markdown-body .mr-2 {
+  margin-right: var(--base-size-8, 8px) !important;
+}
+
+.markdown-body::before {
+  display: table;
+  content: "";
+}
+
+.markdown-body::after {
+  display: table;
+  clear: both;
+  content: "";
+}
+
+.markdown-body>*:first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+.markdown-body a:not([href]) {
+  color: inherit;
+  text-decoration: none;
+}
+
+.markdown-body .absent {
+  color: var(--color-danger-fg);
+}
+
+.markdown-body .markdown-heading {
+  position:  relative;
+}
+
+.markdown-body .anchor {
+  position: absolute;
+  top: 30%;
+  left: -28px;
+  display: flex;
+  width: 28px;
+  height: 28px;
+  margin: auto;
+  line-height: 1;
+  opacity: 0;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(-50%);
+}
+
+.markdown-body .anchor:focus {
+  outline: none;
+}
+
+.markdown-body p,
+.markdown-body blockquote,
+.markdown-body ul,
+.markdown-body ol,
+.markdown-body dl,
+.markdown-body table,
+.markdown-body pre,
+.markdown-body details {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.markdown-body blockquote>:first-child {
+  margin-top: 0;
+}
+
+.markdown-body blockquote>:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body h1 .octicon-link,
+.markdown-body h2 .octicon-link,
+.markdown-body h3 .octicon-link,
+.markdown-body h4 .octicon-link,
+.markdown-body h5 .octicon-link,
+.markdown-body h6 .octicon-link {
+  color: var(--color-fg-default);
+  vertical-align: middle;
+  visibility: hidden;
+}
+
+.markdown-body h1:hover .anchor,
+.markdown-body h2:hover .anchor,
+.markdown-body h3:hover .anchor,
+.markdown-body h4:hover .anchor,
+.markdown-body h5:hover .anchor,
+.markdown-body h6:hover .anchor {
+  text-decoration: none;
+}
+
+.markdown-body h1:hover .anchor .octicon-link,
+.markdown-body h2:hover .anchor .octicon-link,
+.markdown-body h3:hover .anchor .octicon-link,
+.markdown-body h4:hover .anchor .octicon-link,
+.markdown-body h5:hover .anchor .octicon-link,
+.markdown-body h6:hover .anchor .octicon-link {
+  visibility: visible;
+}
+
+.markdown-body h1 tt,
+.markdown-body h1 code,
+.markdown-body h2 tt,
+.markdown-body h2 code,
+.markdown-body h3 tt,
+.markdown-body h3 code,
+.markdown-body h4 tt,
+.markdown-body h4 code,
+.markdown-body h5 tt,
+.markdown-body h5 code,
+.markdown-body h6 tt,
+.markdown-body h6 code {
+  padding: 0 .2em;
+  font-size: inherit;
+}
+
+.markdown-body summary h1,
+.markdown-body summary h2,
+.markdown-body summary h3,
+.markdown-body summary h4,
+.markdown-body summary h5,
+.markdown-body summary h6 {
+  display: inline-block;
+}
+
+.markdown-body summary h1 .anchor,
+.markdown-body summary h2 .anchor,
+.markdown-body summary h3 .anchor,
+.markdown-body summary h4 .anchor,
+.markdown-body summary h5 .anchor,
+.markdown-body summary h6 .anchor {
+  margin-left: -40px;
+}
+
+.markdown-body summary h1,
+.markdown-body summary h2 {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.markdown-body ul.no-list,
+.markdown-body ol.no-list {
+  padding: 0;
+  list-style-type: none;
+}
+
+.markdown-body ol[type="a s"] {
+  list-style-type: lower-alpha;
+}
+
+.markdown-body ol[type="A s"] {
+  list-style-type: upper-alpha;
+}
+
+.markdown-body ol[type="i s"] {
+  list-style-type: lower-roman;
+}
+
+.markdown-body ol[type="I s"] {
+  list-style-type: upper-roman;
+}
+
+.markdown-body ol[type="1"] {
+  list-style-type: decimal;
+}
+
+.markdown-body div>ol:not([type]) {
+  list-style-type: decimal;
+}
+
+.markdown-body ul ul,
+.markdown-body ul ol,
+.markdown-body ol ol,
+.markdown-body ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body li>p {
+  margin-top: 16px;
+}
+
+.markdown-body li+li {
+  margin-top: .25em;
+}
+
+.markdown-body dl {
+  padding: 0;
+}
+
+.markdown-body dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: var(--base-text-weight-semibold, 600);
+}
+
+.markdown-body dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.markdown-body table th {
+  font-weight: var(--base-text-weight-semibold, 600);
+}
+
+.markdown-body table th,
+.markdown-body table td {
+  padding: 6px 13px;
+  border: 1px solid var(--color-border-default);
+}
+
+.markdown-body table td>:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body table tr {
+  background-color: var(--color-canvas-default);
+  border-top: 1px solid var(--color-border-muted);
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: var(--color-canvas-subtle);
+}
+
+.markdown-body table img {
+  background-color: transparent;
+}
+
+.markdown-body img[align=right] {
+  padding-left: 20px;
+}
+
+.markdown-body img[align=left] {
+  padding-right: 20px;
+}
+
+.markdown-body .emoji {
+  max-width: none;
+  vertical-align: text-top;
+  background-color: transparent;
+}
+
+.markdown-body span.frame {
+  display: block;
+  overflow: hidden;
+}
+
+.markdown-body span.frame>span {
+  display: block;
+  float: left;
+  width: auto;
+  padding: 7px;
+  margin: 13px 0 0;
+  overflow: hidden;
+  border: 1px solid var(--color-border-default);
+}
+
+.markdown-body span.frame span img {
+  display: block;
+  float: left;
+}
+
+.markdown-body span.frame span span {
+  display: block;
+  padding: 5px 0 0;
+  clear: both;
+  color: var(--color-fg-default);
+}
+
+.markdown-body span.align-center {
+  display: block;
+  overflow: hidden;
+  clear: both;
+}
+
+.markdown-body span.align-center>span {
+  display: block;
+  margin: 13px auto 0;
+  overflow: hidden;
+  text-align: center;
+}
+
+.markdown-body span.align-center span img {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.markdown-body span.align-right {
+  display: block;
+  overflow: hidden;
+  clear: both;
+}
+
+.markdown-body span.align-right>span {
+  display: block;
+  margin: 13px 0 0;
+  overflow: hidden;
+  text-align: right;
+}
+
+.markdown-body span.align-right span img {
+  margin: 0;
+  text-align: right;
+}
+
+.markdown-body span.float-left {
+  display: block;
+  float: left;
+  margin-right: 13px;
+  overflow: hidden;
+}
+
+.markdown-body span.float-left span {
+  margin: 13px 0 0;
+}
+
+.markdown-body span.float-right {
+  display: block;
+  float: right;
+  margin-left: 13px;
+  overflow: hidden;
+}
+
+.markdown-body span.float-right>span {
+  display: block;
+  margin: 13px auto 0;
+  overflow: hidden;
+  text-align: right;
+}
+
+.markdown-body code,
+.markdown-body tt {
+  padding: .2em .4em;
+  margin: 0;
+  font-size: 85%;
+  white-space: break-spaces;
+  background-color: var(--color-neutral-muted);
+  border-radius: 6px;
+}
+
+.markdown-body code br,
+.markdown-body tt br {
+  display: none;
+}
+
+.markdown-body del code {
+  text-decoration: inherit;
+}
+
+.markdown-body samp {
+  font-size: 85%;
+}
+
+.markdown-body pre code {
+  font-size: 100%;
+}
+
+.markdown-body pre>code {
+  padding: 0;
+  margin: 0;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+
+.markdown-body .highlight {
+  margin-bottom: 16px;
+}
+
+.markdown-body .highlight pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+
+.markdown-body .highlight pre,
+.markdown-body pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  color: var(--color-fg-default);
+  background-color: var(--color-canvas-subtle);
+  border-radius: 6px;
+}
+
+.markdown-body pre code,
+.markdown-body pre tt {
+  display: inline;
+  max-width: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
+}
+
+.markdown-body .csv-data td,
+.markdown-body .csv-data th {
+  padding: 5px;
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 1;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.markdown-body .csv-data .blob-num {
+  padding: 10px 8px 9px;
+  text-align: right;
+  background: var(--color-canvas-default);
+  border: 0;
+}
+
+.markdown-body .csv-data tr {
+  border-top: 0;
+}
+
+.markdown-body .csv-data th {
+  font-weight: var(--base-text-weight-semibold, 600);
+  background: var(--color-canvas-subtle);
+  border-top: 0;
+}
+
+.markdown-body [data-footnote-ref]::before {
+  content: "[";
+}
+
+.markdown-body [data-footnote-ref]::after {
+  content: "]";
+}
+
+.markdown-body .footnotes {
+  font-size: 12px;
+  color: var(--color-fg-muted);
+  border-top: 1px solid var(--color-border-default);
+}
+
+.markdown-body .footnotes ol {
+  padding-left: 16px;
+}
+
+.markdown-body .footnotes ol ul {
+  display: inline-block;
+  padding-left: 16px;
+  margin-top: 16px;
+}
+
+.markdown-body .footnotes li {
+  position: relative;
+}
+
+.markdown-body .footnotes li:target::before {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  bottom: -8px;
+  left: -24px;
+  pointer-events: none;
+  content: "";
+  border: 2px solid var(--color-accent-emphasis);
+  border-radius: 6px;
+}
+
+.markdown-body .footnotes li:target {
+  color: var(--color-fg-default);
+}
+
+.markdown-body .footnotes .data-footnote-backref g-emoji {
+  font-family: monospace;
+}
+
+.markdown-body .pl-c {
+  color: var(--color-prettylights-syntax-comment);
+}
+
+.markdown-body .pl-c1,
+.markdown-body .pl-s .pl-v {
+  color: var(--color-prettylights-syntax-constant);
+}
+
+.markdown-body .pl-e,
+.markdown-body .pl-en {
+  color: var(--color-prettylights-syntax-entity);
+}
+
+.markdown-body .pl-smi,
+.markdown-body .pl-s .pl-s1 {
+  color: var(--color-prettylights-syntax-storage-modifier-import);
+}
+
+.markdown-body .pl-ent {
+  color: var(--color-prettylights-syntax-entity-tag);
+}
+
+.markdown-body .pl-k {
+  color: var(--color-prettylights-syntax-keyword);
+}
+
+.markdown-body .pl-s,
+.markdown-body .pl-pds,
+.markdown-body .pl-s .pl-pse .pl-s1,
+.markdown-body .pl-sr,
+.markdown-body .pl-sr .pl-cce,
+.markdown-body .pl-sr .pl-sre,
+.markdown-body .pl-sr .pl-sra {
+  color: var(--color-prettylights-syntax-string);
+}
+
+.markdown-body .pl-v,
+.markdown-body .pl-smw {
+  color: var(--color-prettylights-syntax-variable);
+}
+
+.markdown-body .pl-bu {
+  color: var(--color-prettylights-syntax-brackethighlighter-unmatched);
+}
+
+.markdown-body .pl-ii {
+  color: var(--color-prettylights-syntax-invalid-illegal-text);
+  background-color: var(--color-prettylights-syntax-invalid-illegal-bg);
+}
+
+.markdown-body .pl-c2 {
+  color: var(--color-prettylights-syntax-carriage-return-text);
+  background-color: var(--color-prettylights-syntax-carriage-return-bg);
+}
+
+.markdown-body .pl-sr .pl-cce {
+  font-weight: bold;
+  color: var(--color-prettylights-syntax-string-regexp);
+}
+
+.markdown-body .pl-ml {
+  color: var(--color-prettylights-syntax-markup-list);
+}
+
+.markdown-body .pl-mh,
+.markdown-body .pl-mh .pl-en,
+.markdown-body .pl-ms {
+  font-weight: bold;
+  color: var(--color-prettylights-syntax-markup-heading);
+}
+
+.markdown-body .pl-mi {
+  font-style: italic;
+  color: var(--color-prettylights-syntax-markup-italic);
+}
+
+.markdown-body .pl-mb {
+  font-weight: bold;
+  color: var(--color-prettylights-syntax-markup-bold);
+}
+
+.markdown-body .pl-md {
+  color: var(--color-prettylights-syntax-markup-deleted-text);
+  background-color: var(--color-prettylights-syntax-markup-deleted-bg);
+}
+
+.markdown-body .pl-mi1 {
+  color: var(--color-prettylights-syntax-markup-inserted-text);
+  background-color: var(--color-prettylights-syntax-markup-inserted-bg);
+}
+
+.markdown-body .pl-mc {
+  color: var(--color-prettylights-syntax-markup-changed-text);
+  background-color: var(--color-prettylights-syntax-markup-changed-bg);
+}
+
+.markdown-body .pl-mi2 {
+  color: var(--color-prettylights-syntax-markup-ignored-text);
+  background-color: var(--color-prettylights-syntax-markup-ignored-bg);
+}
+
+.markdown-body .pl-mdr {
+  font-weight: bold;
+  color: var(--color-prettylights-syntax-meta-diff-range);
+}
+
+.markdown-body .pl-ba {
+  color: var(--color-prettylights-syntax-brackethighlighter-angle);
+}
+
+.markdown-body .pl-sg {
+  color: var(--color-prettylights-syntax-sublimelinter-gutter-mark);
+}
+
+.markdown-body .pl-corl {
+  text-decoration: underline;
+  color: var(--color-prettylights-syntax-constant-other-reference-link);
+}
+
+.markdown-body g-emoji {
+  display: inline-block;
+  min-width: 1ch;
+  font-family: "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  font-size: 1em;
+  font-style: normal !important;
+  font-weight: var(--base-text-weight-normal, 400);
+  line-height: 1;
+  vertical-align: -0.075em;
+}
+
+.markdown-body g-emoji img {
+  width: 1em;
+  height: 1em;
+}
+
+.markdown-body .task-list-item {
+  list-style-type: none;
+}
+
+.markdown-body .task-list-item label {
+  font-weight: var(--base-text-weight-normal, 400);
+}
+
+.markdown-body .task-list-item.enabled label {
+  cursor: pointer;
+}
+
+.markdown-body .task-list-item+.task-list-item {
+  margin-top: 4px;
+}
+
+.markdown-body .task-list-item .handle {
+  display: none;
+}
+
+.markdown-body .task-list-item-checkbox {
+  margin: 0 .2em .25em -1.4em;
+  vertical-align: middle;
+}
+
+.markdown-body .contains-task-list:dir(rtl) .task-list-item-checkbox {
+  margin: 0 -1.6em .25em .2em;
+}
+
+.markdown-body .contains-task-list {
+  position: relative;
+}
+
+.markdown-body .contains-task-list:hover .task-list-item-convert-container,
+.markdown-body .contains-task-list:focus-within .task-list-item-convert-container {
+  display: block;
+  width: auto;
+  height: 24px;
+  overflow: visible;
+  clip: auto;
+}
+
+.markdown-body ::-webkit-calendar-picker-indicator {
+  filter: invert(50%);
+}
+
+.markdown-body .markdown-alert {
+  padding: var(--base-size-8, 8px) var(--base-size-16, 16px);
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid var(--color-border-default);
+}
+
+.markdown-body .markdown-alert>:first-child {
+  margin-top: 0;
+}
+
+.markdown-body .markdown-alert>:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body .markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: var(--base-text-weight-medium, 500);
+  align-items: center;
+  line-height: 1;
+}
+
+.markdown-body .markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-accent-emphasis);
+}
+
+.markdown-body .markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-accent-fg);
+}
+
+.markdown-body .markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-done-emphasis);
+}
+
+.markdown-body .markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-done-fg);
+}
+
+.markdown-body .markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-attention-emphasis);
+}
+
+.markdown-body .markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-attention-fg);
+}
+
+.markdown-body .markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-success-emphasis);
+}
+
+.markdown-body .markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-success-fg);
+}
+
+.markdown-body .markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-danger-emphasis);
+}
+
+.markdown-body .markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-danger-fg);
+}
+</style><title>FOS</title></head><body data-theme="auto"><article class="markdown-body"><div class="markdown-heading"><h1 class="heading-element">Fission Of Soul</h1><a id="user-content-fission-of-soul" class="anchor" aria-label="Permalink: Fission Of Soul" href="#fission-of-soul"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><strong>Fission Of Soul (FOS)</strong> is a small general-purpose C library providing
+generic containers, strings, pseudo-random number generation, arbitrary-precision
+integers, hashing, and other reusable low-level facilities.</p>
+<p>FOS is written in C11 and is designed to be easy to integrate into existing
+C projects. It uses a small number of dependencies and provides explicit,
+straightforward interfaces without requiring a runtime environment or
+framework.</p>
+<p>FOS is primarily intended for Windows, but the source code can also be built
+on other platforms with a suitable C11 compiler.</p>
+<div class="markdown-heading"><h2 class="heading-element">Features</h2><a id="user-content-features" class="anchor" aria-label="Permalink: Features" href="#features"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>The library currently provides:</p>
+<ul>
+<li>
+<code>FOS_Bignum</code> — arbitrary-precision integer arithmetic.</li>
+<li>
+<code>FOS_HashMap</code> — generic hash map using open addressing and linear probing.</li>
+<li>
+<code>FOS_Heap</code> — generic binary min-heap and priority queue.</li>
+<li>
+<code>FOS_List</code> — generic singly-linked list with a tail pointer.</li>
+<li>
+<code>FOS_Memory</code> — configurable memory allocation backend.</li>
+<li>
+<code>FOS_Queue</code> — generic FIFO queue implemented using <code>FOS_List</code>.</li>
+<li>
+<code>FOS_Rng</code> — PCG-based pseudo-random number generation.</li>
+<li>
+<code>FOS_Set</code> — generic unordered set implemented using <code>FOS_HashMap</code>.</li>
+<li>
+<code>FOS_Stack</code> — generic LIFO stack implemented using <code>FOS_List</code>.</li>
+<li>
+<code>FOS_String</code> — owned strings and non-owning string slices.</li>
+<li>
+<code>FOS_Vec</code> — generic dynamic array with optional type-specific wrappers.</li>
+</ul>
+<p>The library is modular. Individual modules can be included independently,
+while <code>FOS.h</code> provides an umbrella header for programs using multiple
+modules.</p>
+<div class="markdown-heading"><h2 class="heading-element">Design philosophy</h2><a id="user-content-design-philosophy" class="anchor" aria-label="Permalink: Design philosophy" href="#design-philosophy"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>FOS favors explicit, lightweight interfaces and conventional C data
+structures.</p>
+<p>The library does not attempt to hide the nature of its data structures.
+Containers expose straightforward operations and document their complexity,
+ownership requirements, and failure behavior.</p>
+<p>FOS is generic where useful, primarily through element sizes, function
+pointers, and C macros.</p>
+<p>Memory allocation is routed through <code>FOS_Memory</code>, allowing applications to
+replace the default C allocation functions with a custom allocation backend.</p>
+<p>Higher-level containers may be implemented in terms of simpler FOS modules
+where this provides a small and practical implementation. For example:</p>
+<pre lang="text"><code>FOS_Queue -&gt; FOS_List
+FOS_Stack -&gt; FOS_List
+FOS_Set   -&gt; FOS_HashMap
+FOS_Heap  -&gt; FOS_Vec
+</code></pre>
+<div class="markdown-heading"><h2 class="heading-element">Requirements</h2><a id="user-content-requirements" class="anchor" aria-label="Permalink: Requirements" href="#requirements"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>FOS requires a compiler supporting C11.</p>
+<p>For Windows builds using CMake, the requirements depend on the selected
+compiler. The Microsoft Visual C workflow uses the normal Visual Studio
+CMake generator. GCC and Clang can be used with Ninja, while Pelles C
+requires its environment setup script and Ninja.</p>
+<p>The following compilers are supported by the provided CMake configuration:</p>
+<ul>
+<li>Microsoft Visual C (MSVC)</li>
+<li>GCC</li>
+<li>Clang</li>
+<li>Pelles C</li>
+</ul>
+<p>The supplied CMake project requires CMake 4.0 or newer. Pelles C support in
+CMake may require a newer CMake version depending on the installed toolchain.</p>
+<div class="markdown-heading"><h2 class="heading-element">Including FOS</h2><a id="user-content-including-fos" class="anchor" aria-label="Permalink: Including FOS" href="#including-fos"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>The complete public interface can be included through the umbrella header:</p>
+<div class="highlight highlight-source-c"><pre><span class="pl-k">#include</span> <span class="pl-s">"FOS.h"</span></pre></div>
+<p>Individual modules can also be included separately:</p>
+<div class="highlight highlight-source-c"><pre><span class="pl-k">#include</span> <span class="pl-s">"FOS_Vec.h"</span>
+<span class="pl-k">#include</span> <span class="pl-s">"FOS_HashMap.h"</span></pre></div>
+<p>Using individual headers is useful when only a subset of the library is
+required.</p>
+<div class="markdown-heading"><h2 class="heading-element">Minimal example</h2><a id="user-content-minimal-example" class="anchor" aria-label="Permalink: Minimal example" href="#minimal-example"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>The following program creates a type-specific vector of <code>int</code>, adds two
+elements, and prints them:</p>
+<div class="highlight highlight-source-c"><pre><span class="pl-k">#include</span> <span class="pl-s">"FOS.h"</span>
+<span class="pl-k">#include</span> <span class="pl-s">&lt;stdio.h&gt;</span>
+
+<span class="pl-en">FOS_VEC_DEFINE</span>(<span class="pl-s1">int</span>, <span class="pl-s1">int</span>)
+
+<span class="pl-smi">int</span> <span class="pl-en">main</span>(<span class="pl-smi">void</span>)
+{
+    <span class="pl-smi">FOS_Vec_int</span> <span class="pl-s1">vec</span> <span class="pl-c1">=</span> <span class="pl-en">FOS_vec_int_new</span>();
+
+    <span class="pl-k">if</span> (!<span class="pl-en">FOS_vec_int_push</span>(<span class="pl-c1">&amp;</span><span class="pl-s1">vec</span>, <span class="pl-c1">10</span>) <span class="pl-c1">||</span>
+        !<span class="pl-en">FOS_vec_int_push</span>(<span class="pl-c1">&amp;</span><span class="pl-s1">vec</span>, <span class="pl-c1">20</span>))
+    {
+        <span class="pl-en">FOS_vec_int_free</span>(<span class="pl-c1">&amp;</span><span class="pl-s1">vec</span>);
+        <span class="pl-k">return</span> <span class="pl-c1">1</span>;
+    }
+
+    <span class="pl-c1">FOS_VEC_FOR_EACH</span>(<span class="pl-k">const</span> <span class="pl-smi">int</span>, <span class="pl-c1">&amp;</span><span class="pl-s1">vec</span>, <span class="pl-s1">value</span>)
+        <span class="pl-en">printf</span>(<span class="pl-s">"%d\n"</span>, <span class="pl-c1">*</span><span class="pl-s1">value</span>);
+
+    <span class="pl-en">FOS_vec_int_free</span>(<span class="pl-c1">&amp;</span><span class="pl-s1">vec</span>);
+
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<p>The example uses only the public API. The underlying representation of
+<code>FOS_Vec</code> is not accessed directly.</p>
+<div class="markdown-heading"><h2 class="heading-element">Building on Windows with CMake</h2><a id="user-content-building-on-windows-with-cmake" class="anchor" aria-label="Permalink: Building on Windows with CMake" href="#building-on-windows-with-cmake"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>CMake is the recommended way to build FOS on Windows.</p>
+<p>The FOS project defines a static library target named <code>FOS</code> and requests the
+C11 language standard.</p>
+<div class="markdown-heading"><h3 class="heading-element">Microsoft Visual C</h3><a id="user-content-microsoft-visual-c" class="anchor" aria-label="Permalink: Microsoft Visual C" href="#microsoft-visual-c"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>CMake normally uses a Visual Studio generator and the MSVC toolchain by
+default on Windows.</p>
+<p>From a Visual Studio Developer Command Prompt, configure the project with:</p>
+<pre lang="text"><code>cmake -S . -B build
+</code></pre>
+<p>Then build it with:</p>
+<pre lang="text"><code>cmake --build build --config Release
+</code></pre>
+<p>No Ninja installation is required for the normal MSVC workflow.</p>
+<p>The MSVC build uses warning level 4:</p>
+<pre lang="text"><code>/W4
+</code></pre>
+<div class="markdown-heading"><h3 class="heading-element">GCC</h3><a id="user-content-gcc" class="anchor" aria-label="Permalink: GCC" href="#gcc"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>To build with GCC, GCC and Ninja must be available through <code>PATH</code>.</p>
+<p>Configure the project with:</p>
+<pre lang="text"><code>cmake -S . -B build-gcc -G Ninja -DCMAKE_C_COMPILER=gcc
+</code></pre>
+<p>Then build it with:</p>
+<pre lang="text"><code>cmake --build build-gcc
+</code></pre>
+<p>The GCC build enables:</p>
+<pre lang="text"><code>-Wall -Wextra -Wpedantic
+</code></pre>
+<div class="markdown-heading"><h3 class="heading-element">Clang</h3><a id="user-content-clang" class="anchor" aria-label="Permalink: Clang" href="#clang"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>To build with Clang, Clang and Ninja must be available through <code>PATH</code>.</p>
+<p>Configure the project with:</p>
+<pre lang="text"><code>cmake -S . -B build-clang -G Ninja -DCMAKE_C_COMPILER=clang
+</code></pre>
+<p>Then build it with:</p>
+<pre lang="text"><code>cmake --build build-clang
+</code></pre>
+<p>The Clang build enables:</p>
+<pre lang="text"><code>-Wall -Wextra -Wpedantic
+</code></pre>
+<div class="markdown-heading"><h3 class="heading-element">Pelles C</h3><a id="user-content-pelles-c" class="anchor" aria-label="Permalink: Pelles C" href="#pelles-c"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Before configuring the project with Pelles C, run the <code>povars64.bat</code> script
+supplied with the Pelles C installation. It is recommended to use plain <code>cmd.exe</code>
+for that purpose (not PowerShell).</p>
+<p>Ninja must also be available through <code>PATH</code>.</p>
+<p>After running <code>povars64.bat</code>, configure the project with:</p>
+<pre lang="text"><code>cmake -S . -B build-pelles -G Ninja -DCMAKE_C_COMPILER=pocc
+</code></pre>
+<p>Then build it with:</p>
+<pre lang="text"><code>cmake --build build-pelles
+</code></pre>
+<p>The Pelles C build selects the multithreaded runtime with:</p>
+<pre lang="text"><code>-MT
+</code></pre>
+<p>Pelles C support was added to CMake relatively recently and may require a
+newer CMake version than the general minimum declared by the FOS project.
+The project deliberately retains a lower general <code>cmake_minimum_required()</code>
+value so that valid builds with other supported toolchains are not
+unnecessarily excluded.</p>
+<div class="markdown-heading"><h3 class="heading-element">Build directories</h3><a id="user-content-build-directories" class="anchor" aria-label="Permalink: Build directories" href="#build-directories"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>When using multiple compilers, use a separate build directory for each
+toolchain:</p>
+<pre lang="text"><code>build/
+build-gcc/
+build-clang/
+build-pelles/
+</code></pre>
+<p>A build directory configured for one toolchain should not be reused for
+another.</p>
+<div class="markdown-heading"><h2 class="heading-element">CMake target</h2><a id="user-content-cmake-target" class="anchor" aria-label="Permalink: CMake target" href="#cmake-target"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>The project defines a static library target named:</p>
+<pre lang="text"><code>FOS
+</code></pre>
+<p>The target contains all FOS implementation files and publishes the project's
+<code>include</code> directory as a public include directory.</p>
+<p>The library requires C11, which is requested by the CMake configuration with:</p>
+<div class="highlight highlight-source-cmake"><pre><span class="pl-c1">target_compile_features</span>(<span class="pl-s">FOS</span>
+    <span class="pl-c1">PUBLIC</span>
+        <span class="pl-s">c_std_11</span>
+)</pre></div>
+<p>Applications using CMake can add the FOS source tree to their own project
+with <code>add_subdirectory()</code> and link against the <code>FOS</code> target.</p>
+<p>For example:</p>
+<div class="highlight highlight-source-cmake"><pre><span class="pl-c1">cmake_minimum_required</span>(<span class="pl-c1">VERSION</span> <span class="pl-s">4.0</span>)
+
+<span class="pl-c1">project</span>(MyProgram <span class="pl-c1">C</span>)
+
+<span class="pl-c1">add_subdirectory</span>(<span class="pl-c1">path</span><span class="pl-s">/to/FOS</span>)
+
+<span class="pl-c1">add_executable</span>(<span class="pl-s">my_program</span>
+    <span class="pl-s">main.c</span>
+)
+
+<span class="pl-c1">target_link_libraries</span>(<span class="pl-s">my_program</span> <span class="pl-c1">PRIVATE</span> <span class="pl-s">FOS</span>)</pre></div>
+<p>The application can then be configured and built with the generator
+appropriate to the selected toolchain.</p>
+<div class="markdown-heading"><h2 class="heading-element">Building manually</h2><a id="user-content-building-manually" class="anchor" aria-label="Permalink: Building manually" href="#building-manually"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>CMake is not required to build FOS.</p>
+<p>On Unix-like systems, the source files can be compiled directly with GCC:</p>
+<pre lang="text"><code>gcc -std=c11 -Wall -Wextra -Wpedantic -O2 -Iinclude -c src/*.c
+</code></pre>
+<p>The resulting object files can then be combined into a static library:</p>
+<pre lang="text"><code>ar rcs libfos.a *.o
+</code></pre>
+<p>The resulting static library can be linked into applications using the
+appropriate compiler and linker options for the target platform.</p>
+<p>Individual FOS source files may also be compiled directly together with an
+application when a separate static library is unnecessary.</p>
+<div class="markdown-heading"><h2 class="heading-element">Memory allocation</h2><a id="user-content-memory-allocation" class="anchor" aria-label="Permalink: Memory allocation" href="#memory-allocation"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>FOS modules use the allocation functions provided by <code>FOS_Memory</code> rather
+than calling <code>malloc()</code>, <code>free()</code>, <code>realloc()</code>, and <code>calloc()</code> directly.</p>
+<p>The default backend uses the corresponding functions from the C standard
+library.</p>
+<p>Applications may replace the allocator backend when a custom allocation
+strategy is required.</p>
+<p>Because the allocator backend is global, changing it affects all FOS
+operations that use <code>FOS_Memory</code>.</p>
+<div class="markdown-heading"><h2 class="heading-element">Error handling</h2><a id="user-content-error-handling" class="anchor" aria-label="Permalink: Error handling" href="#error-handling"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>FOS generally reports operational failures through return values.</p>
+<p>Functions returning <code>bool</code> use <code>true</code> for success and <code>false</code> for failure.</p>
+<p>Functions returning pointers generally use <code>NULL</code> to indicate failure.</p>
+<p>Functions returning structures may return a zero-initialized object when
+construction or allocation fails.</p>
+<p>Functions returning <code>size_t</code> may use <code>SIZE_MAX</code> as an error or "not found"
+sentinel where documented by the corresponding module.</p>
+<p>Individual module documentation specifies the exact behavior of each
+function.</p>
+<div class="markdown-heading"><h2 class="heading-element">Ownership</h2><a id="user-content-ownership" class="anchor" aria-label="Permalink: Ownership" href="#ownership"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>FOS containers generally own storage allocated for their elements.</p>
+<p>For example, when an element is inserted into <code>FOS_Vec</code>, <code>FOS_List</code>,
+<code>FOS_HashMap</code>, or <code>FOS_Set</code>, the element's bytes are copied into
+container-owned storage.</p>
+<p>FOS does not generally perform deep copies of resources contained within an
+element. If an element contains pointers or other resources, the pointer
+values themselves may be copied while the objects they refer to remain under
+the caller's control.</p>
+<p>The individual module documentation describes the precise ownership rules
+for each container.</p>
+<div class="markdown-heading"><h2 class="heading-element">Module documentation</h2><a id="user-content-module-documentation" class="anchor" aria-label="Permalink: Module documentation" href="#module-documentation"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>The individual module documentation provides detailed information about
+representation invariants, ownership, complexity, functions, and examples.</p>
+<p>The modules are:</p>
+<ul>
+<li><code>FOS_Bignum</code></li>
+<li><code>FOS_HashMap</code></li>
+<li><code>FOS_Heap</code></li>
+<li><code>FOS_List</code></li>
+<li><code>FOS_Memory</code></li>
+<li><code>FOS_Queue</code></li>
+<li><code>FOS_Rng</code></li>
+<li><code>FOS_Set</code></li>
+<li><code>FOS_Stack</code></li>
+<li><code>FOS_String</code></li>
+<li><code>FOS_Vec</code></li>
+</ul>
+</article></body></html>

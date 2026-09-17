@@ -1,9 +1,11 @@
 #ifndef FOS_STRING_H
 #define FOS_STRING_H
 
+#include "FOS_Memory.h"
 #include <stdio.h>
 #include <stddef.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 /* Strings with owned data,
  * non-owning slices. 

@@ -7,9 +7,10 @@
 /* Generic singly-linked list with a tail
  * pointer.
  *
- * The only add/remove operation that's not O(1) 
- * is `FOS_list_pop_back()`, it requires traversing
- * the whole list, so the complexity is O(n).
+ * The only add/remove operations that's not O(1) 
+ * are `FOS_list_pop_back()` and FOS_list_remove_at(),
+ * they require traversing the list, so the 
+ * complexity is O(n).
  */
 
 typedef struct FOS_ListNode {

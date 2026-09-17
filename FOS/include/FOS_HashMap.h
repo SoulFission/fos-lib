@@ -14,7 +14,7 @@
  * by user-defined ones.
  */
 
-typedef uint64_t (*FOS_HashFn)(const void *data, size_t size);
+typedef uint64_t (*FOS_HashFn)(const void *data, size_t key_size);
 typedef bool (*FOS_KeyEqFn)(const void *a, const void *b, size_t key_size);
 
 static const size_t FOS_HASHMAP_DEFAULT_CAP = 128;

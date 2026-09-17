@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 4.0)
 
 project(FOS
-    VERSION 0.4.7
+    VERSION 0.5.0
     LANGUAGES C
 )
 
