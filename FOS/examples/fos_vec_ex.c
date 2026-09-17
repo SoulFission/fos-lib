@@ -1,5 +1,5 @@
 // Compilation from MSYS2 UCRT64 shell:
-// gcc fos_string_ex.c -I../include -L.. -lfos -o fos_string_ex
+// gcc fos_vec_ex.c -I../include -L.. -lfos -o fos_vec_ex
 
 #include "FOS_Vec.h"
 #include <stdio.h>
