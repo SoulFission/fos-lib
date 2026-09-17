@@ -59,4 +59,6 @@ void FOS_queue_free(FOS_Queue *q)
         return;
 
     FOS_list_free(&q->queue);
+
+    q->elem_size = 0;
 }
