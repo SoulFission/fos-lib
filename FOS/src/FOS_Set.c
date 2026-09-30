@@ -13,6 +13,11 @@ FOS_Set FOS_set_new(size_t elem_size)
     return new_set;
 }
 
+bool FOS_set_valid(const FOS_Set *set)
+{
+    return (set != NULL && FOS_hashmap_is_valid(&set->hash_map));
+}
+
 bool FOS_set_contains(const FOS_Set *set, const void *elem)
 {
     if (set == NULL || elem == NULL)
