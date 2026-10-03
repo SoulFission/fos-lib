@@ -1301,6 +1301,10 @@ equality   = FOS_key_eq
 </code></pre>
 <p>Returns a zero-initialized set if <code>elem_size == 0</code> or if initialization of
 the underlying hash map fails.</p>
+<div class="markdown-heading"><h3 class="heading-element"><code>bool FOS_set_is_valid(const FOS_Set *set)</code></h3><a id="user-content-bool-fos_set_is_validconst-fos_set-set" class="anchor" aria-label="Permalink: bool FOS_set_is_valid(const FOS_Set *set)" href="#bool-fos_set_is_validconst-fos_set-set"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Checks whether <code>*set</code> is a valid <code>FOS_Set</code>.</p>
+<p>Returns <code>false</code> if <code>set</code> is <code>NULL</code> or has invalid internal representation.</p>
+<p>Returns <code>true</code> otherwise.</p>
 <div class="markdown-heading"><h3 class="heading-element"><code>bool FOS_set_contains(const FOS_Set *set, const void *elem);</code></h3><a id="user-content-bool-fos_set_containsconst-fos_set-set-const-void-elem" class="anchor" aria-label="Permalink: bool FOS_set_contains(const FOS_Set *set, const void *elem);" href="#bool-fos_set_containsconst-fos_set-set-const-void-elem"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Checks whether <code>elem</code> exists in the set.</p>
 <p>Returns <code>true</code> if an equal element is present and <code>false</code> otherwise.</p>
